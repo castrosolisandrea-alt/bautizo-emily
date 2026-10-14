@@ -98,7 +98,7 @@ function mountSection(id){
  section=id;$("section-selector").value=id;
  const needsEnvelope=id==="gate";
  const currentSrc=iframe.getAttribute("src")||"";
- const nextSrc="./index.html?editorPreview="+(needsEnvelope?"envelope":"sections");
+ const nextSrc="./index.html?editorPreview="+(needsEnvelope?"envelope":"sections")+"&v=20261014c";
  if(!currentSrc.includes("editorPreview="+(needsEnvelope?"envelope":"sections"))){
   frameReady=false;iframe.src=nextSrc;
  }else scrollToSection();
@@ -665,7 +665,7 @@ function setMode(value){
  mode=value;selected=null;drawInspector();frameReady=false;
  $("edit-mode").classList.toggle("active",value==="edit");
  $("test-mode").classList.toggle("active",value==="test");
- iframe.src="./index.html?editorPreview="+(value==="test"?"envelope":section==="gate"?"envelope":"sections");
+ iframe.src="./index.html?editorPreview="+(value==="test"?"envelope":section==="gate"?"envelope":"sections")+"&v=20261014c";
  if(value==="test")notify("Modo prueba: toca para abrir");else notify("Modo edición");
 }
 attach();
