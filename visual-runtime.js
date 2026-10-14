@@ -48,6 +48,10 @@ function restore(){
  for(const id of originalIds){
   const el=lookup(id),snapshot=base.get(id);if(!el||!snapshot)continue;
   el.setAttribute("style",snapshot.css);
+  // Conserva los valores controlados por el editor principal después del restablecimiento.
+  if(id==="cover-title-line")el.style.fontStyle=activeCfg.firstItalic?"italic":"normal";
+  if(id==="cover-name")el.style.fontStyle=activeCfg.secondItalic?"italic":"normal";
+  if(id==="angel"&&canColor(activeCfg.angelWings))el.style.setProperty("--angel-wings",activeCfg.angelWings);
   if(el.dataset.imageOverridden==="1"){el.innerHTML=snapshot.markup;delete el.dataset.imageOverridden;}
   if(lastHidden.has(id)){
    const special={cross:activeCfg.coverCross===false,"cover-floral":activeCfg.coverFlowers===false,wax:activeCfg.showSeal===false,
