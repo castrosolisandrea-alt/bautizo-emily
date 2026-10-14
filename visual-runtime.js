@@ -154,10 +154,15 @@ function apply(design,config){
   const el=lookup(id),url=sanitizeImage(src);
   if(!el||!base.has(id)||!url)continue;
   el.innerHTML="";
-  const img=document.createElement("img");
-  img.src=url;img.alt=id;img.draggable=false;
-  img.style.cssText="width:100%;height:100%;object-fit:contain;display:block;";
-  el.appendChild(img);el.dataset.imageOverridden="1";
+  if(el.namespaceURI==="http://www.w3.org/2000/svg"){
+   const image=document.createElementNS("http://www.w3.org/2000/svg","image");
+   image.setAttribute("href",url);image.setAttribute("x","0");image.setAttribute("y","0");image.setAttribute("width","100%");image.setAttribute("height","100%");
+   image.setAttribute("preserveAspectRatio","xMidYMid meet");el.appendChild(image);
+  }else{
+   const img=document.createElement("img");img.src=url;img.alt=id;img.draggable=false;
+   img.style.cssText="width:100%;height:100%;object-fit:contain;display:block;";el.appendChild(img);
+  }
+  el.dataset.imageOverridden="1";
  }
  for(const [id,content] of Object.entries(design.texts||{})){
   if(!base.has(id))continue;
