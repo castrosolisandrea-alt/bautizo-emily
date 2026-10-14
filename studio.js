@@ -11,6 +11,7 @@ function clean(d){const result=d&&typeof d==="object"?d:{};return{
  styles:result.styles&&typeof result.styles==="object"?result.styles:{},
  texts:result.texts&&typeof result.texts==="object"?result.texts:{},
  images:result.images&&typeof result.images==="object"?result.images:{},
+ backgrounds:result.backgrounds&&typeof result.backgrounds==="object"?result.backgrounds:{},
  sections:Array.isArray(result.sections)?result.sections:[],
  elements:Array.isArray(result.elements)?result.elements:[]
 };}
@@ -308,6 +309,8 @@ function drawTool(){
   toolHeading(area,"Tu propia biblioteca");
   area.appendChild(p("Puedes subir una cruz, angelito, flores, fondo o cualquier ilustración. Recomendamos PNG con transparencia.","tool-note"));
   rowButton(area,"Subir imagen","La colocaré en la sección seleccionada","↥",()=>{fileMode="new";triggerFile()});
+  rowButton(area,"Subir fondo de la sección","Reemplazar el fondo con tu imagen","▧",()=>{fileMode="background";triggerFile()});
+  if(settings.design.backgrounds?.[section])rowButton(area,"Quitar fondo personalizado","Volver al fondo marfil","✕",()=>edit(()=>{delete settings.design.backgrounds[section]}));
   if(selected)rowButton(area,"Reemplazar seleccionado","Poner otra imagen en su lugar","↺",()=>{fileMode="replace";triggerFile()});
   area.appendChild(p("Las imágenes se comprimen y quedan guardadas en la configuración. Los archivos publicados son visibles para cualquiera con el enlace.","info"));
  }else if(tool==="layers"){
@@ -574,7 +577,9 @@ function loadFile(file){
    let data=canvas.toDataURL("image/webp",0.72);
    if(!data.startsWith("data:image/webp"))data=canvas.toDataURL("image/png");
    if(data.length>260000){alert("La imagen aún es muy grande para guardarla en GitHub. Usa una versión más pequeña.");return}
-   if(fileMode==="replace"&&selected){
+   if(fileMode==="background"){
+    edit(()=>{settings.design.backgrounds=settings.design.backgrounds||{};settings.design.backgrounds[section]=data});
+   }else if(fileMode==="replace"&&selected){
     edit(()=>{
      const element=settings.design.elements.find(x=>x.id===selected);
      if(element){element.kind="image";element.src=data;}
