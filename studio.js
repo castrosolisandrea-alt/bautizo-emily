@@ -4,7 +4,7 @@
 "use strict";
 const $=id=>document.getElementById(id);
 const base=window.EMILY_CONFIG||{};
-function clone(v){return JSON.parse(JSON.stringify(v))}
+function clone(v){return v===undefined?undefined:JSON.parse(JSON.stringify(v))}
 function clean(d){const result=d&&typeof d==="object"?d:{};return{
  hidden:Array.isArray(result.hidden)?result.hidden:[],
  placements:result.placements&&typeof result.placements==="object"?result.placements:{},
@@ -15,7 +15,7 @@ function clean(d){const result=d&&typeof d==="object"?d:{};return{
  sections:Array.isArray(result.sections)?result.sections:[],
  elements:Array.isArray(result.elements)?result.elements:[]
 };}
-let settings={...clone(base),design:clean(clone(base.design))};
+let settings={...clone(base),design:clean(clone(base.design||{}))};
 try{const saved=localStorage.getItem("emily-studio-v1");if(saved){const o=JSON.parse(saved);settings={...settings,...o,design:clean(o.design)}}}catch(e){}
 const history=[],future=[];
 const nativeIds=["envelopeWrap","open","angel","wax","cover-floral","cross","cover-title-line","cover-name","cover-day","cover-month","cover-year","cover-subtitle","cover-button","blessing","parents-heading","parents","godmother-heading","godmother","countdown-heading","month-top","date-large","weekday-year","calendar","ceremony-heading","church","church-location","ceremony-time","maps-button","dress-heading","dress-text","dress-chips","rsvp-heading","rsvp-message","rsvp-button","album-heading","album-message","album-button","closing-message","closing-title"];
@@ -105,7 +105,10 @@ function mountSection(id){
  drawTool();
 }
 function scrollToSection(){
- if(section==="gate")return;
+ if(section==="gate"){
+  try{iframe.contentWindow.scrollTo({top:0,left:0,behavior:"instant"})}catch(e){}
+  return;
+ }
  const f=iframe.contentWindow,s=getSectionNode(section);
  if(f&&s)f.scrollTo({top:Math.max(0,s.getBoundingClientRect().top+f.scrollY-3),behavior:"instant"});
 }
@@ -140,9 +143,12 @@ function previewStyles(){
 function setupFrame(){
  const d=doc();if(!d)return;
  frameReady=true;
+ try{d.defaultView.history.scrollRestoration="manual"}catch(e){}
  if(mode==="edit"){previewStyles();d.addEventListener("pointerdown",dragBegin,true);d.addEventListener("pointermove",dragMove,true);d.addEventListener("pointerup",dragEnd,true);d.addEventListener("pointercancel",dragEnd,true);d.addEventListener("click",stopInteractive,true);d.addEventListener("dblclick",editTextDouble,true)}
  d.defaultView.__emilyDesignSelectCallback=()=>{clearMark();selectedInDocument()};
- sync();setTimeout(()=>{scrollToSection();selectedInDocument()},140);
+ sync();
+ setTimeout(()=>{scrollToSection();selectedInDocument()},140);
+ if(section==="gate")setTimeout(scrollToSection,550);
 }
 function stopInteractive(e){
  if(mode!=="edit")return;
