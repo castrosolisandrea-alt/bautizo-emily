@@ -9,7 +9,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=EB+Garamond:ital,wght@0,400;1,400&family=Great+Vibes&family=Libre+Baskerville:wght@400;700&family=Playfair+Display:ital,wght@0,400;1,400&display=swap" rel="stylesheet">
 <style>
 :root{--ivory:#FCFAF6;--background:#F9F6F0;--gold:#BD9B61;--gold-soft:#E3CDA9;--ink:#53483C;--sage:#A9B1A0;--body-font:"Cormorant Garamond",Georgia,serif;--heading-font:"Cormorant Garamond",Georgia,serif;--body-size:22px;--heading-size:45px;--pad:68px;--envelope-paper:#F7F1E7;--envelope-border:#DCC5A2;--seal:#C9A66B;--open-ms:1700ms}
-*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--background);color:var(--ink);font-family:var(--body-font)}
+*{box-sizing:border-box}[hidden]{display:none!important}html{scroll-behavior:smooth}body{margin:0;background:var(--background);color:var(--ink);font-family:var(--body-font)}
 button,a{font:inherit}button{cursor:pointer}a{color:inherit}button:focus-visible,a:focus-visible{outline:3px solid #776241;outline-offset:4px}
 .gate{min-height:100svh;position:relative;display:flex;align-items:center;justify-content:center;overflow:hidden;background:radial-gradient(ellipse at 50% 87%,#f1e7d8 0%,transparent 60%),var(--ivory);transition:opacity .65s}
 .gate.hidden{opacity:0;visibility:hidden;pointer-events:none;position:absolute;inset:0}
@@ -17,7 +17,7 @@ button,a{font:inherit}button{cursor:pointer}a{color:inherit}button:focus-visible
 .floral{position:absolute;width:182px;max-width:40vw;color:#a3aa91;opacity:.72;pointer-events:none}
 .floral.top{top:-8px;right:-10px}.floral.bottom{bottom:-18px;left:-33px;transform:rotate(190deg)}
 .floral circle{fill:#fffefa;stroke:#d7c6a8;stroke-width:1}
-.envelope-wrap{position:relative;width:var(--env-size,292px);height:var(--env-height,292px);max-width:82vw;filter:drop-shadow(0 20px 14px #baa17e36)}
+.envelope-wrap.no-shadow{filter:none}.envelope-wrap{position:relative;width:var(--env-size,292px);height:var(--env-height,292px);max-width:82vw;filter:drop-shadow(0 20px 14px #baa17e36)}
 .envelope{position:absolute;inset:0;border-radius:5px;border:1px solid var(--envelope-border);background:linear-gradient(130deg,#fffefa 0%,var(--envelope-paper) 82%,#ece5dc 100%);perspective:900px;isolation:isolate}
 .envelope.texture:after{content:"";pointer-events:none;position:absolute;inset:0;background:repeating-linear-gradient(120deg,transparent 0px,#92734608 1px,transparent 2px,transparent 5px);opacity:.48;z-index:9}
 .envelope.no-shadow{box-shadow:none}
@@ -86,7 +86,7 @@ button,a{font:inherit}button{cursor:pointer}a{color:inherit}button:focus-visible
 .closing{padding:78px 28px;text-align:center;color:var(--ink);font-size:23px}
 .closing p{font-size:23px;line-height:1.45}
 .closing h2{font-family:var(--heading-font);font-style:italic;font-size:50px;color:var(--gold);font-weight:400}
-.sound-control{position:fixed;z-index:35;bottom:16px;right:16px;border:1px solid var(--gold-soft);background:var(--ivory);color:var(--gold);border-radius:50%;height:45px;width:45px;display:none;font-size:18px}
+.sound-control{position:fixed;z-index:35;bottom:16px;right:16px;border:1px solid var(--gold-soft);background:var(--ivory);color:var(--gold);border-radius:50%;height:45px;width:45px;display:block;font-size:18px}
 @media(min-width:521px){.gate{max-width:520px;margin:0 auto}.page{border-left:1px solid #f5eee3;border-right:1px solid #f5eee3}}
 @media(max-height:720px){.gate-inner{gap:32px;padding:30px}.cover-cross{margin-bottom:7px}.date-block{margin-top:12px}}
 @media(prefers-reduced-motion:reduce){*,*:before,*:after{animation-duration:.01ms!important;transition-duration:.01ms!important}html{scroll-behavior:auto}}
@@ -249,7 +249,7 @@ button,a{font:inherit}button{cursor:pointer}a{color:inherit}button:focus-visible
   angel.style.setProperty("--angel-wings",color(cfg.angelWings)?cfg.angelWings:"#ffffff");
   document.querySelectorAll(".angel-svg path").forEach(()=>{});
   $("envelope").classList.toggle("texture",cfg.envelopeTexture!==false);
-  $("envelope").classList.toggle("no-shadow",cfg.envelopeShadow===false);
+  $("envelopeWrap").classList.toggle("no-shadow",cfg.envelopeShadow===false);
   vis("wax",cfg.showSeal!==false);
   const seal=$("wax");
   const sealSym=(cfg.sealSymbol||"dove");
@@ -277,7 +277,8 @@ button,a{font:inherit}button{cursor:pointer}a{color:inherit}button:focus-visible
   [["familia","showFamily"],["fecha","showCountdown"],["ceremonia","showCeremony"],["vestimenta","showDressCode"],["asistencia","showRSVP"],["album","showAlbum"],["despedida","showClosing"]].forEach(([id,key])=>vis(id,cfg[key]!==false));
   $("dress-chips").querySelectorAll(".chip").forEach((el,i)=>{const v=cfg["dressColor"+(i+1)];if(color(v))el.style.background=v;});
   const query=(cfg.mapsQuery||cfg.church||"Santuario de la Divina Misericordia Guayaquil").trim();
-  $("map-iframe").src="https://www.google.com/maps?q="+encodeURIComponent(query)+"&output=embed";
+  const mapSrc="https://www.google.com/maps?q="+encodeURIComponent(query)+"&output=embed";
+  if($("map-iframe").getAttribute("src")!==mapSrc)$("map-iframe").src=mapSrc;
   $("maps-button").href="https://www.google.com/maps/search/?api=1&query="+encodeURIComponent(query);
   vis("map-container",cfg.showMap!==false);
   const form=safeUrl(cfg.googleFormUrl||"");
@@ -288,7 +289,7 @@ button,a{font:inherit}button{cursor:pointer}a{color:inherit}button:focus-visible
   vis("rsvp-embed",embedded);
   vis("rsvp-pending",!form);
   if(form)$("rsvp-button").href=form;else $("rsvp-button").removeAttribute("href");
-  if(embedded){$("rsvp-embed").src=embedLink;}else{$("rsvp-embed").removeAttribute("src");}
+  if(embedded){if($("rsvp-embed").getAttribute("src")!==embedLink)$("rsvp-embed").src=embedLink;}else if($("rsvp-embed").hasAttribute("src")){$("rsvp-embed").removeAttribute("src");}
   const lim=String(cfg.guestLimit||"2");
   $("guest-limit-note").textContent=lim==="none"?"":lim==="1"?"Confirma tu asistencia individual.":"Puedes confirmar hasta 2 personas, contándote.";
   $("guest-limit-note").hidden=lim==="none";
@@ -298,7 +299,7 @@ button,a{font:inherit}button{cursor:pointer}a{color:inherit}button:focus-visible
   const music=safeUrl(cfg.musicUrl||"");const audio=$("bg-music");
   const allowMusic=!!music&&cfg.musicEnabled===true;
   if(allowMusic&&audio.src!==music)audio.src=music;
-  if(!allowMusic){audio.pause();audio.removeAttribute("src");audio.load();}
+  if(!allowMusic&&audio.hasAttribute("src")){audio.pause();audio.removeAttribute("src");audio.load();}
   audio.volume=range(cfg.musicVolume,0,100,35)/100;
   vis("sound",allowMusic);
   tick();
@@ -319,7 +320,7 @@ button,a{font:inherit}button{cursor:pointer}a{color:inherit}button:focus-visible
   if(cfg.showAngelFlight!==false&&cfg.showAngel!==false)$("envelopeWrap").classList.add("fly");
   if(cfg.showSparkles===false)$("gate").classList.remove("opening");
   const audio=$("bg-music");
-  if(cfg.musicEnabled&&safeUrl(cfg.musicUrl||"")){try{await audio.play();$("sound").textContent="♫";}catch(e){$("sound").textContent="♪";}}
+  if(cfg.musicEnabled&&safeUrl(cfg.musicUrl||"")){try{const p=audio.play();if(p)p.catch(()=>{$("sound").textContent="♪";});$("sound").textContent="♫";}catch(e){$("sound").textContent="♪";}}
   window.setTimeout(()=>{$("gate").classList.add("hidden");$("invitation").classList.add("visible");window.scrollTo(0,0);},range(cfg.openingDuration,600,5000,1700));
  });
  $("sound").addEventListener("click",async()=>{const a=$("bg-music");if(a.paused){try{await a.play();$("sound").textContent="♫";}catch(e){}}else{a.pause();$("sound").textContent="♪";}});
