@@ -1,0 +1,181 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#faf7f1">
+  <meta name="description" content="Invitación al bautismo de Emily · 21 de noviembre de 2026">
+  <title>Bautismo de Emily · Invitación</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Libre+Baskerville:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root{--fondo:#faf7f1;--papel:#fcfaf6;--dorado:#bc9b61;--linea:#dfc8a1;--texto:#514638;--salvia:#929983}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--fondo);color:var(--texto);font-family:"Cormorant Garamond",Georgia,serif}
+button,a{font:inherit}
+button{cursor:pointer}
+.gate{min-height:100svh;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden;background:radial-gradient(ellipse at 50% 85%,#f2e5d1 0%,transparent 62%),var(--papel);transition:opacity .7s ease}
+.gate.hidden{opacity:0;pointer-events:none;position:absolute;inset:0;visibility:hidden}
+.gate-inner{width:100%;min-height:100svh;display:flex;align-items:center;justify-content:center;flex-direction:column;padding:35px 20px;gap:52px}
+.envelope{width:min(75vw,288px);aspect-ratio: .71;position:relative;overflow:hidden;border:1px solid #e5ceb0;border-radius:10px;background:linear-gradient(150deg,#fffdfa 0%,#fbf8f3 70%,#f2eee8 100%);box-shadow:0 24px 28px -18px #c1a47588,0 3px 15px #d6c7b520;perspective:950px;transform-style:preserve-3d}
+.envelope:before{content:"";position:absolute;inset:0;background:repeating-linear-gradient(0deg,transparent 0px,#aa8e6920 1px,transparent 2px,transparent 5px);opacity:.14;pointer-events:none}
+.paper-glow{position:absolute;inset:1px;background:radial-gradient(ellipse at 56% 25%,#fffefa 0%,transparent 72%);opacity:.7}
+.lower{position:absolute;inset:auto 0 0;height:39%;background:linear-gradient(to bottom,#fbf8f2,#eeeae2);clip-path:polygon(0 0,50% 16%,100% 0,100% 100%,0 100%);opacity:.65}
+.folds{position:absolute;bottom:0;width:100%;height:41%;overflow:visible}
+.folds path{fill:none;stroke:#e5cfaf;stroke-width:1}
+.folds .horizontal{stroke:#e3d3bb;stroke-width:.75}
+.ribbon{position:absolute;left:50%;bottom:38%;transform:translate(-50%,50%);width:83%;height:52px;overflow:visible}
+.ribbon path{fill:none;stroke:#aa874a;stroke-width:1.8;stroke-linecap:round}
+.ribbon .light{stroke:#d8c49e;stroke-width:1.4}
+.ribbon .knot{fill:#b99761;stroke:none}
+.topflap{position:absolute;inset:0 0 auto;height:60%;transform-origin:50% 0%;transform:rotateX(0deg);backface-visibility:hidden;transition:transform 1s cubic-bezier(.18,.75,.29,1);pointer-events:none;opacity:0}
+.envelope.open .topflap{transform:rotateX(-155deg);opacity:.6}
+.gate-button{background:#fdfaf5;border:1px solid #d9b881;color:#4f4435;letter-spacing:.24em;font:600 11px Georgia,serif;padding:14px 27px;border-radius:999px;box-shadow:inset 0 0 0 4px #fdfaf5,inset 0 0 0 5px #ead8bc;min-width:200px}
+.gate-button:hover{background:#f4ead9}
+.gate-button:focus-visible,.gold-button:focus-visible{outline:3px solid #8f7650;outline-offset:4px}
+.opening-bird{position:absolute;z-index:5;left:-25%;top:48%;width:125px;height:90px;opacity:0;pointer-events:none;color:#fafafa;filter:drop-shadow(0 2px 3px #ae956b66)}
+.gate.fly .opening-bird{animation:birdFlight 1.35s ease-out forwards}
+@keyframes birdFlight{0%{transform:translate(0,70px) scale(.65) rotate(-15deg);opacity:0}20%{opacity:1}80%{opacity:1}100%{transform:translate(145vw,-43vh) scale(1.08) rotate(-16deg);opacity:0}}
+.sparkles{position:absolute;inset:0;pointer-events:none;opacity:0;background-image:radial-gradient(circle,#c4a063 1.8px,transparent 2px),radial-gradient(circle,#dac6a0 1.4px,transparent 2px);background-size:91px 97px,137px 119px;background-position:25px 10px,45px 52px}
+.gate.fly .sparkles{animation:glint 1.1s ease-in-out}
+@keyframes glint{0%,100%{opacity:0}38%{opacity:.8}}
+.page{display:none;max-width:520px;margin:0 auto;background:#fdfbf8;min-height:100svh;box-shadow:0 0 65px #b6ab9b30;overflow:hidden}
+.page.visible{display:block;animation:appear .85s both}
+@keyframes appear{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:translateY(0)}}
+.section{padding:78px 28px;min-height:70svh;display:flex;align-items:center;justify-content:center;flex-direction:column;text-align:center;position:relative}
+.cover{min-height:100svh;gap:15px;padding:55px 24px 50px}
+.cross{width:75px;height:88px;color:var(--dorado)}
+.cross svg{height:100%;width:100%}
+.eyebrow{font-size:27px;font-weight:400;color:#ab8a53;margin:6px 0 0}
+.name{font-size:clamp(67px,19vw,95px);line-height:.92;font-weight:400;font-style:italic;color:#bf9e62;margin:0 0 12px}
+.photo-oval{width:min(55vw,225px);height:min(68vw,274px);border:1.5px solid #d2b47f;border-radius:50%;position:relative;background:linear-gradient(145deg,#fffefa,#f6f0e8);display:flex;align-items:center;justify-content:center;color:#bea779;font-size:15px;padding:30px;text-align:center}
+.photo-oval:before{content:"";position:absolute;inset:7px;border-radius:50%;border:1px solid #e7d5b9}
+.date{font-size:13px;letter-spacing:.21em;text-transform:uppercase;color:#8c7656;margin:13px 0 7px}
+.gold-button{border:1px solid #ceb284;background:#bd9e66;color:white;text-decoration:none;border-radius:100px;display:inline-flex;align-items:center;justify-content:center;padding:13px 23px;font-size:18px;min-height:46px}
+.golden-divider{display:flex;gap:15px;align-items:center;color:#c6a76f;margin:25px 0}
+.golden-divider:before,.golden-divider:after{content:"";width:75px;height:1px;background:#d7bf99}
+.section h2{color:#b59661;font-size:clamp(36px,10vw,49px);font-style:italic;font-weight:400;line-height:1.05;margin:15px 0 25px}
+.section p{font-size:22px;line-height:1.42;margin:8px 0}
+.small{font-size:16px!important;color:#817365}
+.parents{min-height:80svh}
+.parents .label{color:#b59661;font-size:29px;margin:22px 0 10px}
+.doveicon{width:85px;height:72px;color:#c6a66c}
+.date-large{font-size:77px;color:#b59661;margin:0;line-height:1}
+.month{font-size:15px;letter-spacing:.32em;text-transform:uppercase}
+.timer{display:grid;grid-template-columns:repeat(4,1fr);gap:9px;width:100%;margin:26px 0}
+.timer strong{font-size:37px;font-weight:400;color:#aa8952;display:block}
+.timer span{font-size:10px;letter-spacing:.1em;color:#6d6157}
+.section .subheading{color:#aa8952;font-size:31px}
+.map-frame{border:1px solid #e0c8a2;border-radius:12px;width:100%;height:250px;overflow:hidden;margin:23px 0}
+.map-frame iframe{width:100%;height:100%;border:0}
+.chips{display:flex;gap:12px;justify-content:center;margin-top:22px}
+.chip{height:32px;width:32px;border:1px solid #d6c0a1;border-radius:50%}
+.rsvp{background:#faf6ef;min-height:65svh}
+.note{font-size:16px!important;max-width:320px;color:#796d5b}
+footer{font-size:23px;color:#a78756;text-align:center;padding:80px 24px;background:#f9f5ed}
+.mute{position:fixed;bottom:16px;right:16px;z-index:20;border:1px solid #d9c39e;border-radius:50%;background:#fbf8f2;width:45px;height:45px;color:#9d8051;display:none}
+@media(min-width:521px){.gate{max-width:520px;margin:auto}.gate-inner{gap:54px}.page{border-left:1px solid #f0ebe1;border-right:1px solid #f0ebe1}}
+@media(prefers-reduced-motion:reduce){*,*:before,*:after{animation-duration:.01ms!important;transition-duration:.01ms!important}html{scroll-behavior:auto}}
+</style>
+</head>
+<body>
+<div id="gate" class="gate">
+  <div class="sparkles" aria-hidden="true"></div>
+  <svg class="opening-bird" viewBox="0 0 120 85" aria-hidden="true"><path fill="#fff" stroke="#c9b58e" stroke-width="1.2" d="M12 50 Q38 41 45 22 Q57 49 72 39 Q93 25 111 15 Q98 43 74 53 Q65 73 42 70 Q54 60 47 54 Q31 67 12 50Z"/><path fill="none" stroke="#c9b58e" d="M68 48Q91 55 110 40"/></svg>
+  <div class="gate-inner">
+    <div id="envelope" class="envelope" aria-hidden="true">
+      <div class="paper-glow"></div>
+      <div class="lower"></div>
+      <svg class="folds" viewBox="0 0 286 166" preserveAspectRatio="none"><path class="horizontal" d="M1 2 H285"/><path d="M1 166 L142 2 L285 166"/></svg>
+      <svg class="ribbon" viewBox="0 0 230 52" preserveAspectRatio="xMidYMid meet">
+        <path d="M2 25 C48 30 82 28 112 27 C155 28 194 30 228 25"/>
+        <path class="light" d="M116 26 C103 18 91 16 85 24 C94 23 101 28 116 26 C126 13 136 13 141 18 C135 23 126 27 116 26"/>
+        <path class="light" d="M116 28 C109 33 104 38 100 45 M116 28 C121 33 125 39 134 45 M116 26 C111 16 115 11 119 12 C125 16 121 22 116 26"/>
+        <ellipse class="knot" cx="116" cy="26" rx="6" ry="4"/>
+      </svg>
+      <div class="topflap"></div>
+    </div>
+    <button class="gate-button" id="open" type="button" aria-label="Abrir invitación de bautismo de Emily">TOCA PARA ABRIR</button>
+  </div>
+</div>
+<main id="invitation" class="page" aria-label="Invitación al bautismo de Emily">
+  <section class="section cover" id="portada">
+    <div class="cross" aria-hidden="true"><svg viewBox="0 0 80 90"><path d="M40 8V75M21 27H59" stroke="#bd9e69" stroke-width="5" fill="none"/><path d="M21 47Q7 38 17 23 M58 47 Q74 38 64 23" stroke="#adaf98" stroke-width="1.2" fill="none"/><circle cx="17" cy="24" r="3.5" fill="#e8dfca"/><circle cx="64" cy="24" r="3.5" fill="#e8dfca"/><circle cx="26" cy="41" r="3.2" fill="#e8dfca"/><circle cx="54" cy="41" r="3.2" fill="#e8dfca"/></svg></div>
+    <h1 class="eyebrow">Bautismo de</h1>
+    <div class="name">Emily</div>
+    <div class="photo-oval" aria-label="Lugar reservado para la fotografía de Emily">Aquí irá la fotografía de Emily</div>
+    <div class="date">21 · noviembre · 2026</div>
+    <a class="gold-button" href="#familia">Descubre mi invitación</a>
+  </section>
+  <section class="section parents" id="familia">
+    <h2>Con la bendición de Dios<br>y nuestros padres</h2>
+    <div class="label">Nuestros padres</div>
+    <p>David Arturo Yépez González</p>
+    <p>Gabriela Carolina Solis Franco</p>
+    <div class="golden-divider">✝</div>
+    <div class="label">Madrina</div>
+    <p>Andrea Castro Solis</p>
+  </section>
+  <section class="section" id="fecha">
+    <svg class="doveicon" viewBox="0 0 100 80" aria-hidden="true"><path d="M12 41Q35 35 40 17Q49 39 58 35Q74 24 94 12Q85 37 65 48Q53 68 34 64Q42 55 40 50Q24 58 12 41Z" stroke="currentColor" stroke-width="1.2" fill="none"/><path d="M62 46Q80 51 95 41" fill="none" stroke="currentColor"/></svg>
+    <h2>Faltan para mi bautizo</h2>
+    <div class="month">Noviembre</div>
+    <div class="date-large">21</div>
+    <div class="small">SÁBADO · 2026</div>
+    <div class="timer" aria-label="Cuenta regresiva">
+      <div><strong id="days">--</strong><span>DÍAS</span></div><div><strong id="hours">--</strong><span>HORAS</span></div><div><strong id="mins">--</strong><span>MIN</span></div><div><strong id="secs">--</strong><span>SEG</span></div>
+    </div>
+    <button class="gold-button" id="calendar" type="button">Agendar fecha</button>
+  </section>
+  <section class="section" id="ceremonia">
+    <h2>Ceremonia</h2>
+    <p>Santuario de la Divina Misericordia</p>
+    <p class="small">Guayaquil · Sábado 21 de noviembre</p>
+    <p class="subheading">11:00 a. m.</p>
+    <div class="map-frame">
+      <iframe title="Mapa de la iglesia" loading="lazy" referrerpolicy="no-referrer-when-downgrade" src="https://www.google.com/maps?q=Santuario%20de%20la%20Divina%20Misericordia%20Guayaquil&output=embed"></iframe>
+    </div>
+    <a class="gold-button" target="_blank" rel="noopener noreferrer" href="https://www.google.com/maps/search/?api=1&query=Santuario%20de%20la%20Divina%20Misericordia%20Guayaquil">Cómo llegar</a>
+  </section>
+  <section class="section" id="vestimenta">
+    <h2>Código de vestimenta</h2>
+    <p>Tonos pastel</p>
+    <div class="chips"><div class="chip" style="background:#fcecf3"></div><div class="chip" style="background:#fcf7e9"></div><div class="chip" style="background:#dae8e2"></div><div class="chip" style="background:#e3deef"></div></div>
+  </section>
+  <section class="section rsvp" id="asistencia">
+    <h2>¿Nos acompañas?</h2>
+    <p>Será una alegría compartir este día contigo.</p>
+    <p class="note">Próximamente activaremos aquí el formulario de confirmación, con registro en Google Sheets y límite configurable de asistentes.</p>
+  </section>
+  <section class="section" id="album">
+    <h2>Álbum en vivo</h2>
+    <p>Compartiremos las fotografías de este día especial.</p>
+    <p class="note">El enlace al álbum colaborativo estará disponible cuando esté configurado.</p>
+  </section>
+  <footer><div class="golden-divider">✝</div><p>Queremos compartir contigo este momento tan especial.</p><h2 style="font-weight:400;font-style:italic;font-size:48px">¡Te esperamos!</h2></footer>
+</main>
+<script>
+(function(){
+  var gate=document.getElementById("gate"), envelope=document.getElementById("envelope"), main=document.getElementById("invitation"), open=document.getElementById("open");
+  var underway=false;
+  open.addEventListener("click",function(){
+    if(underway)return; underway=true;open.disabled=true;
+    envelope.classList.add("open");gate.classList.add("fly");
+    window.setTimeout(function(){gate.classList.add("hidden");main.classList.add("visible");window.scrollTo(0,0);},1150);
+  });
+  var goal=new Date("2026-11-21T11:00:00-05:00").getTime();
+  function tick(){
+    var time=Math.max(0,goal-Date.now()),days=Math.floor(time/86400000);
+    var hours=Math.floor(time%86400000/3600000), mins=Math.floor(time%3600000/60000), secs=Math.floor(time%60000/1000);
+    [["days",days],["hours",hours],["mins",mins],["secs",secs]].forEach(function(x){document.getElementById(x[0]).textContent=String(x[1]).padStart(2,"0")});
+  }tick();window.setInterval(tick,1000);
+  document.getElementById("calendar").addEventListener("click",function(){
+    var ics=["BEGIN:VCALENDAR","VERSION:2.0","PRODID:-//Bautismo de Emily//ES","BEGIN:VEVENT","UID:bautismo-emily-20261121@example.invalid","DTSTAMP:20261014T000000Z","DTSTART:20261121T160000Z","DTEND:20261121T170000Z","SUMMARY:Bautismo de Emily","LOCATION:Santuario de la Divina Misericordia, Guayaquil","END:VEVENT","END:VCALENDAR"].join("\r\n");
+    var blob=new Blob([ics],{type:"text/calendar;charset=utf-8"}), url=URL.createObjectURL(blob),a=document.createElement("a");a.href=url;a.download="bautismo-emily.ics";a.click();setTimeout(function(){URL.revokeObjectURL(url)},2000);
+  });
+})();
+</script>
+</body>
+</html>
