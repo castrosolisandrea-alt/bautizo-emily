@@ -5,6 +5,7 @@
 const base=new Map();
 let lastCustom=[];
 let lastHidden=new Set();
+let lastBackgrounds=new Set();
 let activeCfg=window.EMILY_CONFIG||{};
 const originalIds=[
 "envelopeWrap","open","angel","wax","cover-floral","cross","cover-title-line","cover-name",
@@ -141,8 +142,14 @@ function createExtra(item){
 }
 function apply(design,config){
  activeCfg=config||window.EMILY_CONFIG||{};
+ for(const id of lastBackgrounds){const section=lookup(id);if(section){section.style.backgroundImage="";section.style.backgroundSize="";section.style.backgroundPosition="";}}
+ lastBackgrounds=new Set();
  restore();
  for(const section of design.sections||[]){createSection(section)}
+ for(const [id,img] of Object.entries(design.backgrounds||{})){
+  const section=lookup(id),source=sanitizeImage(img);
+  if(section&&source){section.style.backgroundImage="url("+JSON.stringify(source)+")";section.style.backgroundSize="cover";section.style.backgroundPosition="center";lastBackgrounds.add(id)}
+ }
  for(const [id,src] of Object.entries(design.images||{})){
   const el=lookup(id),url=sanitizeImage(src);
   if(!el||!base.has(id)||!url)continue;
