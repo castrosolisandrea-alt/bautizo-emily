@@ -1,153 +1,275 @@
 <!doctype html>
 <html lang="es">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Editor visual · Bautizo de Emily</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500&family=EB+Garamond:wght@400;500&family=Great+Vibes&family=Libre+Baskerville:wght@400;700&family=Playfair+Display:wght@400;500&display=swap" rel="stylesheet">
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Editor de Emily · Personalización completa</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;1,400&display=swap" rel="stylesheet">
 <style>
-:root{font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;color:#41362e;background:#f5f0e9}
+:root{font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;color:#453a30;background:#f4efe8}
 *{box-sizing:border-box}
 body{margin:0}
-header{padding:16px 22px;background:#fffdf8;border-bottom:1px solid #e6d8c7;display:flex;justify-content:space-between;align-items:center;gap:14px;flex-wrap:wrap}
-header h1{font-family:"Cormorant Garamond",Georgia,serif;font-weight:500;font-size:31px;margin:0;color:#ad8854}
-header p{font-size:12px;color:#7f776d;margin:2px 0}
-a{color:#90692f}
-main{padding:20px;display:grid;grid-template-columns:minmax(310px,460px) minmax(320px,1fr);gap:20px;max-width:1500px;margin:auto}
-aside,.viewer{background:#fffdfa;border:1px solid #e6d8c7;border-radius:17px;padding:22px}
-aside{max-height:calc(100vh - 116px);overflow:auto}
-fieldset{border:1px solid #e6d8c7;border-radius:13px;margin:0 0 16px;padding:14px}
-legend{font-family:"Cormorant Garamond",Georgia,serif;font-style:italic;font-size:27px;color:#af8c55;padding:0 6px}
-label{display:block;margin:0 0 13px;font-size:13px;font-weight:600;line-height:1.5}
-input,select{width:100%;border:1px solid #d6c9b9;background:#fff;border-radius:9px;padding:10px 11px;color:#423629;font-size:15px;font-family:inherit;margin-top:5px}
-input[type=color]{padding:3px;height:41px}
-input[type=checkbox]{width:auto;vertical-align:middle;margin-right:9px}
-button{border:0;border-radius:9px;padding:12px 16px;font-size:14px;font-weight:600;cursor:pointer;background:#b8955d;color:#fff}
-button.ghost{background:#f1e7d9;color:#5a4533}
-button:hover{filter:brightness(.98)}
-.actions{display:flex;gap:8px;flex-wrap:wrap;margin:14px 0}
-.hint{line-height:1.5;font-size:12px;color:#7d7063}
-#status{font-size:13px;color:#49704a;min-height:20px}
-.viewer{text-align:center}
-.viewer h2{font-family:"Cormorant Garamond",serif;font-size:30px;font-weight:500;margin:0;color:#9b7848}
-.tools{display:flex;align-items:center;justify-content:center;gap:8px;margin:10px 0}
-.tools button{padding:8px 13px}
-.tools button.active{background:#b8955d;color:white}
-.tools button:not(.active){background:#efe6db;color:#655542}
-iframe{border:9px solid #2a2a29;border-radius:39px;width:min(100%,390px);height:min(78vh,740px);background:#fff;box-shadow:0 13px 38px #7773;display:block;margin:12px auto}
-@media(max-width:870px){main{grid-template-columns:1fr;padding:10px}aside{max-height:none}iframe{height:650px}.viewer{padding:12px}}
+header{background:#fffdfa;border-bottom:1px solid #e5d8c3;display:flex;gap:16px;align-items:center;justify-content:space-between;padding:13px 22px;flex-wrap:wrap}
+h1,h2{font-family:"Cormorant Garamond",Georgia,serif;color:#aa8651;font-weight:500;margin:0}
+h1{font-size:33px;line-height:1}
+header p{font-size:12px;margin:4px 0;color:#76685b}
+a{color:#927044}
+.layout{display:grid;grid-template-columns:minmax(340px,470px) minmax(300px,1fr);gap:18px;padding:17px;max-width:1550px;margin:0 auto}
+aside,.viewer{border:1px solid #e5d8c3;background:#fffdfa;border-radius:17px;overflow:hidden}
+aside{height:calc(100vh - 109px);display:flex;flex-direction:column}
+.editor-head{padding:17px 16px 12px;border-bottom:1px solid #eee5d8}
+.search{width:100%;padding:11px 13px;border-radius:10px;border:1px solid #d7c9b7;font-size:14px}
+.tabs{display:flex;overflow-x:auto;gap:6px;padding:11px 12px;white-space:nowrap;border-bottom:1px solid #eee5d8;scrollbar-width:thin}
+.tab{background:#f4ebdf;border:1px solid #e4d3b8;border-radius:999px;padding:9px 14px;color:#564435;font-weight:600;cursor:pointer}
+.tab.active{background:#b8965e;color:#fff;border-color:#b8965e}
+.panel{overflow:auto;padding:19px 19px 22px;flex:1}
+h2{font-size:31px;margin-bottom:6px}
+.group-desc{font-size:13px;color:#7b6e60;line-height:1.5;margin:0 0 20px}
+.field{display:block;margin-bottom:17px}
+.field-name{font-size:13px;font-weight:650;display:block;margin-bottom:6px}
+.field input:not([type=checkbox]):not([type=color]):not([type=range]),.field textarea,.field select{width:100%;font:inherit;font-size:14px;padding:10px 12px;border-radius:9px;border:1px solid #d7c9b9;background:#fff;color:#413629}
+.field textarea{min-height:78px;resize:vertical;line-height:1.5}
+.field input[type=color]{display:block;width:100%;height:44px;border:1px solid #d7c9b9;padding:3px;border-radius:9px;cursor:pointer}
+.field input[type=range]{width:calc(100% - 75px);accent-color:#b8965e;vertical-align:middle}
+.field output{display:inline-block;width:62px;text-align:right;color:#866f51;font-size:12px;font-variant-numeric:tabular-nums}
+.field select{cursor:pointer}
+.field .toggle{display:flex;align-items:center;gap:10px;cursor:pointer}
+.field input[type=checkbox]{width:19px;height:19px;accent-color:#b8965e}
+.field .help{display:block;font-size:11px;color:#8b8072;margin-top:5px;line-height:1.45}
+.actions{padding:12px;border-top:1px solid #eee5d8;background:#fffdfa;display:flex;flex-wrap:wrap;gap:7px}
+button{border:0;border-radius:9px;padding:10px 13px;font-size:12px;font-weight:650;cursor:pointer}
+.primary{background:#b8965e;color:white}
+.secondary{background:#f0e5d6;color:#5b4731}
+.danger{background:#f9efed;color:#885249}
+.notice{padding:10px 13px;font-size:12px;color:#7b6c59;background:#f9f4eb;line-height:1.5}
+#status{min-height:19px;padding:0 14px;font-size:12px;color:#587051}
+.viewer{padding:18px;min-height:580px;text-align:center}
+.viewer h2{font-size:32px}
+.viewer p{font-size:12px;color:#766b5f;line-height:1.4}
+.preview-tabs{display:flex;justify-content:center;gap:7px;margin:13px 0}
+.preview-tabs button{background:#f2e8db;color:#5a4937}
+.preview-tabs button.active{background:#b8965e;color:#fff}
+iframe{width:min(100%,408px);height:min(77vh,780px);min-height:520px;border:9px solid #272728;border-radius:42px;background:#fff;box-shadow:0 15px 35px #5c514331;display:block;margin:16px auto}
+.guides{margin-top:15px;text-align:left;background:#faf5ed;border:1px solid #e9dac5;border-radius:12px;padding:13px 18px}
+.guides summary{font-weight:650;cursor:pointer;color:#785e3e}
+.guides p{font-size:12px}
+.guides a{word-break:break-all}
+#advanced-json{min-height:280px;resize:vertical;width:100%;font:12px/1.5 ui-monospace,Consolas,monospace;padding:10px;border:1px solid #d6c6ae;border-radius:10px;background:#fff}
+#file-json{max-width:100%}
+@media(max-width:900px){.layout{grid-template-columns:1fr;padding:10px}.viewer{order:2}aside{height:auto;max-height:75vh}.panel{max-height:56vh}iframe{height:640px}}
 </style>
 </head>
 <body>
 <header>
-  <div><h1>Editor de Emily</h1><p>Personaliza la invitación y comprueba cómo se ve desde el celular.</p></div>
-  <a href="./index.html" target="_blank" rel="noopener">Abrir invitación completa ↗</a>
+  <div><h1>Editor de Emily</h1><p>Personalización completa · marfil y dorado champagne · vista previa en vivo</p></div>
+  <a href="./index.html" target="_blank" rel="noopener">Abrir invitación ↗</a>
 </header>
-<main>
-  <aside>
-    <fieldset><legend>Portada</legend>
-      <label>Primera línea<input id="first" maxlength="45" placeholder="Bautizo de"></label>
-      <label>Segunda línea<input id="second" maxlength="45" placeholder="Emily"></label>
-      <label>Una sola tipografía para las dos líneas
-        <select id="font">
-          <option>Cormorant Garamond</option>
-          <option>EB Garamond</option>
-          <option>Playfair Display</option>
-          <option>Libre Baskerville</option>
-          <option>Georgia</option>
-          <option>Great Vibes</option>
-        </select>
-      </label>
-      <label>Tamaño de «Bautizo de» (px)<input type="range" min="20" max="72" step="1" id="firstSize"><output id="firstSizeOut"></output></label>
-      <label>Tamaño de «Emily» (px)<input type="range" min="30" max="115" step="1" id="secondSize"><output id="secondSizeOut"></output></label>
-    </fieldset>
-    <fieldset><legend>Fecha</legend>
-      <label>Día<input id="day" maxlength="2" inputmode="numeric"></label>
-      <label>Mes<input id="month" maxlength="20"></label>
-      <label>Año<input id="year" maxlength="4" inputmode="numeric"></label>
-      <label>Tamaño del número 21 (px)<input id="daySize" type="range" min="35" max="118"><output id="daySizeOut"></output></label>
-    </fieldset>
-    <fieldset><legend>Colores y detalles</legend>
-      <label>Dorado champagne<input type="color" id="gold"></label>
-      <label>Blanco marfil<input type="color" id="ivory"></label>
-      <label>Frase opcional bajo la fecha<input id="subtitle" maxlength="120" placeholder="Opcional"></label>
-      <label><input type="checkbox" id="showSubtitle">Mostrar frase opcional</label>
-    </fieldset>
-    <fieldset><legend>Sobre</legend>
-      <label>Texto del botón para abrir<input id="envelopeButton" maxlength="35"></label>
-      <p class="hint">Los colores marfil y dorado también armonizan con el sobre. Más adelante podremos agregar el angelito de la apertura.</p>
-    </fieldset>
-    <div class="actions">
-      <button id="save" type="button">Guardar borrador</button>
-      <button id="copy" class="ghost" type="button">Copiar cambios</button>
-      <button id="download" class="ghost" type="button">Descargar config.js</button>
-      <button id="reset" class="ghost" type="button">Restaurar original</button>
-    </div>
-    <p id="status" role="status"></p>
-    <p class="hint"><strong>Importante:</strong> el editor guarda pruebas solo en tu navegador. Para publicar tus cambios, pulsa <strong>Copiar cambios</strong>, abre <a href="https://github.com/castrosolisandrea-alt/bautizo-emily/blob/main/config.js" target="_blank" rel="noopener">config.js en GitHub</a>, pulsa el lápiz, reemplaza su contenido por lo copiado y haz <strong>Commit changes</strong>. Así se actualizará el enlace público.</p>
-  </aside>
-  <section class="viewer">
-    <h2>Vista previa interactiva</h2>
-    <p class="hint">Los cambios aparecen sin necesidad de publicar.</p>
-    <div class="tools"><button id="previewCover" type="button" class="active">Ver portada</button><button id="previewEnvelope" type="button">Ver sobre</button></div>
-    <iframe id="phone" title="Vista previa de la invitación de Emily" src="./index.html?editorPreview=cover"></iframe>
-    <p class="hint">Para ver todos los efectos del sobre, selecciona «Ver sobre» y toca su botón.</p>
-  </section>
-</main>
+<div class="layout">
+<aside>
+  <div class="editor-head">
+    <input id="search" class="search" placeholder="Buscar: sobre, letra, fecha, mapa, álbum..." aria-label="Buscar opción">
+  </div>
+  <div class="tabs" id="tabs" role="tablist"></div>
+  <div id="panel" class="panel" role="tabpanel"></div>
+  <div class="notice">Puedes experimentar sin afectar la invitación publicada. <strong>Guardar borrador</strong> lo conserva solo en este navegador. Para publicarlo hay que actualizar <strong>config.js</strong> en GitHub.</div>
+  <div class="actions">
+    <button id="save" class="primary">Guardar borrador</button>
+    <button id="copy" class="secondary">Copiar para publicar</button>
+    <button id="download" class="secondary">Descargar config.js</button>
+    <button id="reset" class="danger">Restaurar</button>
+  </div>
+  <p id="status" role="status"></p>
+</aside>
+<div class="viewer">
+  <h2>Vista previa</h2>
+  <p>Prueba el sobre, desliza entre secciones y revisa cómo quedará en un celular.</p>
+  <div class="preview-tabs">
+    <button id="pvEnvelope" class="active">Sobre</button>
+    <button id="pvCover">Portada</button>
+    <button id="pvFull">Todo</button>
+  </div>
+  <iframe id="phone" src="./index.html?editorPreview=envelope" title="Vista previa interactiva de Emily"></iframe>
+  <details class="guides" open>
+    <summary>Cómo guardar tus cambios en el enlace público</summary>
+    <p>1. Ajusta las opciones y pulsa <strong>Guardar borrador</strong>.</p>
+    <p>2. Pulsa <strong>Copiar para publicar</strong>.</p>
+    <p>3. Abre <a href="https://github.com/castrosolisandrea-alt/bautizo-emily/blob/main/config.js" target="_blank" rel="noopener">config.js en tu GitHub</a>, pulsa el lápiz, reemplaza todo por lo copiado y pulsa <strong>Commit changes</strong>.</p>
+    <p>4. Espera a que GitHub Pages se actualice. El editor no puede guardar por sí solo en GitHub porque no tiene acceso a tu cuenta.</p>
+  </details>
+  <details class="guides">
+    <summary>Cómo conectar confirmaciones a Excel</summary>
+    <p>Crea un formulario en <a href="https://forms.google.com/" target="_blank" rel="noopener">Google Forms</a> con nombre, «¿Asistirá?» y «Cantidad de personas». En <strong>Respuestas → Vincular a Hojas de cálculo</strong>, crea la hoja de Google Sheets. Copia el enlace público del formulario y pégalo en el apartado «Confirmaciones». Las respuestas se guardarán automáticamente en la hoja.</p>
+    <p>Para máximo 1 o 2 personas, ajusta también las opciones del formulario de Google. Cambiar el selector de esta invitación no modifica automáticamente tu formulario externo.</p>
+    <p>La hoja de respuestas no debe compartirse públicamente: solo se publica el enlace para responder al formulario.</p>
+  </details>
+  <details class="guides">
+    <summary>Cómo conectar el álbum compartido</summary>
+    <p>En <a href="https://photos.google.com/" target="_blank" rel="noopener">Google Fotos</a>, crea un álbum, habilita compartir por enlace y, si quieres que los invitados añadan fotografías, permite colaborar. Pega el enlace en «Álbum». Para subir fotos normalmente necesitarán iniciar sesión con una cuenta de Google.</p>
+  </details>
+  <details class="guides">
+    <summary>Importante sobre la música y el angelito</summary>
+    <p>La música comienza cuando se toca el sobre, si añades un enlace HTTPS directo a un archivo de audio y habilitas música. Algunos navegadores o enlaces externos pueden impedir reproducirla. Para cambiar el angelito por una imagen propia, sube la imagen a un alojamiento público y pega su dirección HTTPS; no uses fotos privadas ni claves.</p>
+  </details>
+</div>
+</div>
 <script src="./config.js"></script>
 <script>
 (function(){
-  const fields=["first","second","font","firstSize","secondSize","day","month","year","daySize","gold","ivory","envelopeButton","subtitle","showSubtitle"];
-  const original=Object.assign({},window.EMILY_CONFIG||{});
-  let settings={...original};
-  try{const v=localStorage.getItem("emily-draft-v1"); if(v)settings={...original,...JSON.parse(v)};}catch(e){}
-  function get(id){return document.getElementById(id)}
-  function display(){
-    fields.forEach(k=>{const input=get(k);if(!input)return;if(input.type==="checkbox")input.checked=!!settings[k];else input.value=settings[k]??"";});
-    ["firstSize","secondSize","daySize"].forEach(k=>get(k+"Out").value=settings[k]+" px");
-    updateFrame();
-  }
-  function read(){
-    fields.forEach(k=>{const el=get(k);settings[k]=el.type==="checkbox"?el.checked:el.type==="range"?Number(el.value):el.value;});
-    ["firstSize","secondSize","daySize"].forEach(k=>get(k+"Out").value=settings[k]+" px");
-    updateFrame();
-  }
-  function updateFrame(){
-    const frame=get("phone");
-    if(frame.contentWindow)frame.contentWindow.postMessage({type:"emily-preview-update",config:settings},location.origin);
-  }
-  fields.forEach(k=>get(k).addEventListener("input",read));
-  get("phone").addEventListener("load",()=>setTimeout(updateFrame,80));
-  function code(){return "/* Configuración visual creada con editor.html. */\nwindow.EMILY_CONFIG = "+JSON.stringify(settings,null,2)+";\n";}
-  function setStatus(s){get("status").textContent=s}
-  get("save").addEventListener("click",()=>{
-    localStorage.setItem("emily-draft-v1",JSON.stringify(settings));
-    setStatus("Borrador guardado en este navegador. Todavía no se ha publicado.");
+ const repoDefaults=window.EMILY_CONFIG||{};
+ let settings={...repoDefaults};
+ try{const saved=localStorage.getItem("emily-editor-v3");if(saved)settings={...settings,...JSON.parse(saved)};}catch(e){}
+ const $=id=>document.getElementById(id);
+ const options={
+   fonts:["Cormorant Garamond","EB Garamond","Playfair Display","Libre Baskerville","Georgia","Great Vibes"],
+   shapes:[["square","Sobre cuadrado como el ejemplo"],["portrait","Sobre vertical como Convite"]],
+   seals:[["dove","Paloma"],["cross","Cruz"],["heart","Corazón"]],
+   guests:[["2","Máximo 2 personas"],["1","Máximo 1 persona"],["none","Ocultar cantidad"]]
+ };
+ // Grupo, descripción y campos: [clave, etiqueta, tipo, parámetros, ayuda].
+ const groups=[
+  ["General","Colores de toda la invitación, tipografía general, separaciones y adornos.",[
+   ["ivory","Fondo marfil de las páginas","color"],["background","Fondo exterior","color"],["gold","Dorado principal","color"],["goldSoft","Dorado suave para líneas","color"],
+   ["ink","Color de los textos","color"],["sage","Verde salvia de acento","color"],
+   ["bodyFont","Fuente de párrafos","select","fonts"],["headingFont","Fuente de títulos de las secciones","select","fonts"],
+   ["bodySize","Tamaño de párrafos","range",[14,35,1,"px"]],["headingSize","Tamaño de títulos","range",[24,70,1,"px"]],
+   ["sectionPadding","Espacio vertical en las secciones","range",[20,140,1,"px"]],
+   ["showFlowers","Mostrar adornos florales","check"],["showDividers","Mostrar separadores dorados","check"]]],
+  ["Sobre","Controla el diseño de la carta, el sello, el angelito, la apertura, los destellos y la música.",[
+   ["envelopeShape","Forma del sobre","select","shapes"],["envelopeSize","Tamaño del sobre","range",[175,420,1,"px"]],
+   ["envelopePaper","Color del papel","color"],["envelopeBorder","Líneas y bordes","color"],["envelopeSatin","Color del sello dorado","color"],
+   ["envelopeTexture","Textura suave de papel","check"],["envelopeShadow","Sombra bajo el sobre","check"],
+   ["showEnvelopeFlowers","Flores en las esquinas","check"],["showSeal","Mostrar sello","check"],["sealSymbol","Símbolo del sello","select","seals"],
+   ["showAngel","Mostrar angelito","check"],["angelSize","Tamaño del angelito","range",[45,230,1,"px"]],
+   ["angelHair","Color del cabello del angelito","color"],["angelDress","Color de su ropita","color"],["angelWings","Color de sus alas","color"],
+   ["angelImageUrl","Reemplazar por una ilustración propia (URL HTTPS)","url",null,"Opcional. Si está vacío, se usa el angelito ilustrado que viene incluido."],
+   ["showAngelFlight","Angelito sale volando al abrir","check"],["showSparkles","Destellos dorados al abrir","check"],
+   ["openingDuration","Duración de la apertura","range",[600,5000,100,"ms"]],
+   ["envelopeButton","Texto del botón","text"],["envelopeButtonSize","Tamaño de letra del botón","range",[9,22,1,"px"]],
+   ["envelopeButtonTracking","Espacio entre letras del botón","range",[0,7,1,"px"]],
+   ["musicEnabled","Reproducir música cuando abran","check"],["musicUrl","Enlace HTTPS directo a música (MP3)","url",null,"No sirve un enlace normal de YouTube o Spotify. Debe ser un archivo de audio permitido para reproducirse en la web."],
+   ["musicVolume","Volumen inicial","range",[0,100,1,"%"]]]],
+  ["Portada","«Bautizo de» y «Emily» mantienen una sola tipografía; puedes cambiar sus tamaños por separado.",[
+   ["coverCross","Mostrar cruz dorada","check"],["coverFlowers","Flores discretas de portada","check"],["crossSize","Tamaño de la cruz","range",[25,125,1,"px"]],
+   ["coverTopPadding","Espacio superior","range",[20,160,1,"px"]],
+   ["first","Primera línea del título","text"],["second","Segunda línea del título","text"],
+   ["font","Tipografía de las dos líneas","select","fonts"],
+   ["firstSize","Tamaño de «Bautizo de»","range",[17,90,1,"px"]],
+   ["secondSize","Tamaño de «Emily»","range",[20,130,1,"px"]],
+   ["firstItalic","Primera línea en cursiva","check"],["secondItalic","Emily en cursiva","check"],
+   ["titleGap","Separación entre ambas líneas","range",[0,65,1,"px"]],
+   ["day","Día","text"],["month","Mes escrito","text"],["year","Año","text"],
+   ["daySize","Tamaño del número 21","range",[20,135,1,"px"]],
+   ["dateSize","Tamaño de NOVIEMBRE · 2026","range",[9,28,1,"px"]],
+   ["showSubtitle","Mostrar frase pequeña","check"],["subtitle","Frase opcional","text"],
+   ["coverButton","Texto del botón para continuar","text"]]],
+  ["Familia","Texto de bendición, padres y madrina (sin padrinos).",[
+   ["showFamily","Mostrar sección de familia","check"],["blessing","Mensaje de bendición","textarea"],
+   ["parentsHeading","Título de los padres","text"],["parents","Nombres de padres (uno por línea)","textarea"],
+   ["godmotherHeading","Título de madrina","text"],["godmother","Nombre de la madrina","text"]]],
+  ["Fecha","Fecha real para el contador y texto de la agenda.",[
+   ["showCountdown","Mostrar cuenta regresiva","check"],["countdownHeading","Título de cuenta regresiva","text"],
+   ["eventISO","Fecha y hora real (Ecuador -05:00)","text",null,"Formato: 2026-11-21T11:00:00-05:00. Controla cuenta regresiva y archivo para calendario."],
+   ["dateWeekday","Día de la semana escrito","text"],["calendarButton","Texto del botón de calendario","text"]]],
+  ["Ceremonia","Cambia la iglesia, la hora, el mapa integrado y su botón.",[
+   ["showCeremony","Mostrar ceremonia","check"],["ceremonyHeading","Título de ceremonia","text"],
+   ["church","Nombre de la iglesia","text"],["churchLocation","Ciudad o ubicación en texto","text"],
+   ["ceremonyTime","Hora que verán los invitados","text"],
+   ["mapsQuery","Lugar que buscará el mapa","text",null,"Ejemplo: Santuario de la Divina Misericordia Guayaquil"],
+   ["showMap","Mostrar mapa dentro de la invitación","check"],["mapsButton","Texto del botón para llegar","text"]]],
+  ["Vestimenta","Personaliza el código de vestimenta y cada uno de los cuatro colores.",[
+   ["showDressCode","Mostrar vestimenta","check"],["dressHeading","Título de vestimenta","text"],
+   ["dressText","Descripción","text"],["dressColor1","Color pastel 1","color"],
+   ["dressColor2","Color pastel 2","color"],["dressColor3","Color pastel 3","color"],["dressColor4","Color pastel 4","color"]]],
+  ["Confirmaciones","Pega el enlace de Google Forms para que se registre automáticamente en Google Sheets.",[
+   ["showRSVP","Mostrar confirmación","check"],["rsvpHeading","Título","text"],
+   ["rsvpMessage","Mensaje","textarea"],["rsvpButton","Texto del botón","text"],
+   ["googleFormUrl","Enlace público para responder al formulario","url",null,"Pega la URL de Google Forms, no la de edición ni la de Google Sheets."],
+   ["embedGoogleForm","Mostrar formulario dentro de la invitación","check",null,"Solo compatible con enlaces directos de Google Forms. Si lo desactivas aparece un botón."],
+   ["guestLimit","Límite indicado a los invitados","select","guests","También debes ajustar las opciones reales del formulario de Google Forms; el límite aquí no cambia Google Forms automáticamente."]]],
+  ["Álbum","Coloca el enlace de Google Fotos para que los invitados puedan ver y compartir fotografías.",[
+   ["showAlbum","Mostrar álbum","check"],["albumHeading","Título del álbum","text"],
+   ["albumMessage","Texto descriptivo","textarea"],["albumButton","Texto del botón","text"],
+   ["albumUrl","Enlace del álbum compartido","url",null,"Activa la colaboración en Google Fotos si quieres que también puedan subir fotografías."]]],
+  ["Cierre","El mensaje que verán los invitados al terminar la invitación.",[
+   ["showClosing","Mostrar despedida","check"],["closingMessage","Mensaje de despedida","textarea"],
+   ["closingTitle","Título final","text"]]]
+ ];
+ const allFields=groups.flatMap(g=>g[2]);let currentGroup=0;
+ function say(s){$("status").textContent=s;}
+ function escapeValue(v){return String(v??"");}
+ function buildTabs(){
+  $("tabs").replaceChildren();
+  groups.forEach((g,i)=>{
+   const b=document.createElement("button");b.className="tab"+(i===currentGroup?" active":"");b.textContent=g[0];b.type="button";
+   b.addEventListener("click",()=>{currentGroup=i;$("search").value="";draw();});$("tabs").appendChild(b);
   });
-  get("copy").addEventListener("click",async()=>{
-    try{await navigator.clipboard.writeText(code());setStatus("Configuración copiada. Pégala en config.js de GitHub y confirma los cambios.");}
-    catch(e){setStatus("No se pudo copiar; utiliza «Descargar config.js» o abre el editor desde HTTPS.");}
-  });
-  get("download").addEventListener("click",()=>{
-    const blob=new Blob([code()],{type:"text/javascript;charset=utf-8"}),url=URL.createObjectURL(blob),a=document.createElement("a");
-    a.href=url;a.download="config.js";document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),2000);
-    setStatus("Archivo descargado. Para que sea público, actualiza config.js en tu repositorio.");
-  });
-  get("reset").addEventListener("click",()=>{
-    if(!window.confirm("¿Restaurar las opciones originales de esta versión?"))return;
-    settings={...original};localStorage.removeItem("emily-draft-v1");display();setStatus("Diseño original restaurado en el editor.");
-  });
-  function preview(type){
-    get("phone").src=type==="cover"?"./index.html?editorPreview=cover":"./index.html?editorPreview=envelope";
-    get("previewCover").classList.toggle("active",type==="cover");
-    get("previewEnvelope").classList.toggle("active",type!=="cover");
+ }
+ function createField(item){
+  const [key,label,type,meta,help]=item,wrap=document.createElement("label");
+  wrap.className="field";wrap.dataset.key=key;wrap.dataset.label=label.toLowerCase();
+  const name=document.createElement("span");name.className="field-name";name.textContent=label;
+  wrap.appendChild(name);
+  let el;
+  if(type==="textarea"){el=document.createElement("textarea");el.rows=3;}
+  else if(type==="select"){
+   el=document.createElement("select");
+   for(const option of options[meta]||[]){
+    const opt=document.createElement("option");
+    const pair=Array.isArray(option)?option:[option,option];
+    opt.value=pair[0];opt.textContent=pair[1];el.appendChild(opt);
+   }
+  }else{
+   el=document.createElement("input");
+   el.type=type==="check"?"checkbox":type==="range"?"range":type==="color"?"color":type==="url"?"url":"text";
+   if(type==="range"){el.min=meta[0];el.max=meta[1];el.step=meta[2]||1;}
   }
-  get("previewCover").addEventListener("click",()=>preview("cover"));
-  get("previewEnvelope").addEventListener("click",()=>preview("envelope"));
-  display();
+  el.id="field-"+key;
+  if(type==="check"){const top=document.createElement("span");top.className="toggle";wrap.removeChild(name);top.appendChild(el);top.appendChild(name);wrap.appendChild(top);}
+  else {wrap.appendChild(el);}
+  if(type==="range"){const output=document.createElement("output");output.id="out-"+key;wrap.appendChild(output);}
+  const hint=help||"";if(hint){const n=document.createElement("small");n.className="help";n.textContent=hint;wrap.appendChild(n);}
+  function paint(){
+   if(type==="check")el.checked=!!settings[key];
+   else el.value=settings[key]??"";
+   if(type==="range")$("out-"+key).textContent=(settings[key]??"")+meta[3];
+  }
+  el.addEventListener(type==="select"||type==="check"?"change":"input",()=>{
+   settings[key]=type==="check"?el.checked:type==="range"?Number(el.value):el.value;
+   if(type==="range")$("out-"+key).textContent=el.value+meta[3];
+   updateFrame();say("Vista previa actualizada. Guarda el borrador si quieres conservar el cambio.");
+  });
+  wrap._paint=paint;return wrap;
+ }
+ function draw(){
+  buildTabs();const term=$("search").value.trim().toLowerCase(),panel=$("panel");
+  panel.replaceChildren();
+  const visible=term?groups.flatMap(g=>g[2].filter(f=>(g[0]+" "+f[1]+" "+f[0]).toLowerCase().includes(term))):groups[currentGroup][2];
+  const h=document.createElement("h2");h.textContent=term?"Resultados de búsqueda":groups[currentGroup][0];panel.appendChild(h);
+  const p=document.createElement("p");p.className="group-desc";p.textContent=term?visible.length+" opciones encontradas":groups[currentGroup][1];panel.appendChild(p);
+  if(!visible.length){const x=document.createElement("p");x.textContent="No encontramos esa opción.";panel.appendChild(x);}
+  visible.forEach(f=>{const el=createField(f);panel.appendChild(el);el._paint();});
+ }
+ function updateFrame(){try{$("phone").contentWindow.postMessage({type:"emily-preview-update",config:settings},location.origin);}catch(e){}}
+ $("search").addEventListener("input",draw);
+ $("phone").addEventListener("load",()=>setTimeout(updateFrame,140));
+ function preview(which){
+  const mode=which==="Portada"?"cover":which==="Todo"?"sections":"envelope";
+  $("phone").src="./index.html?editorPreview="+mode;
+  [["pvEnvelope","Sobre"],["pvCover","Portada"],["pvFull","Todo"]].forEach(([id,n])=>$(id).classList.toggle("active",n===which));
+ }
+ [["pvEnvelope","Sobre"],["pvCover","Portada"],["pvFull","Todo"]].forEach(([id,n])=>$(id).addEventListener("click",()=>preview(n)));
+ function outputCode(){return "/* Configuración de la invitación del bautizo de Emily. */\nwindow.EMILY_CONFIG = "+JSON.stringify(settings,null,2)+";\n";}
+ $("save").addEventListener("click",()=>{try{localStorage.setItem("emily-editor-v3",JSON.stringify(settings));say("Borrador guardado en este navegador. No está publicado todavía.");}catch(e){say("No se pudo guardar localmente; descarga config.js.");}});
+ $("copy").addEventListener("click",async()=>{try{await navigator.clipboard.writeText(outputCode());say("Copiado. Abre config.js en GitHub, pulsa el lápiz, pega y confirma los cambios.");}catch(e){say("No se pudo copiar; utiliza Descargar config.js.");}});
+ $("download").addEventListener("click",()=>{
+  const b=new Blob([outputCode()],{type:"text/javascript;charset=utf-8"}),u=URL.createObjectURL(b),a=document.createElement("a");
+  a.href=u;a.download="config.js";document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(u),3000);say("Configuración descargada para conservarla o subirla al repositorio.");
+ });
+ $("reset").addEventListener("click",()=>{
+  if(!confirm("¿Restaurar los valores actualmente publicados en config.js?"))return;
+  settings={...repoDefaults};localStorage.removeItem("emily-editor-v3");draw();updateFrame();say("Restaurado a los valores actuales de GitHub.");
+ });
+ draw();
 })();
 </script>
-</body>
-</html>
+</body></html>
