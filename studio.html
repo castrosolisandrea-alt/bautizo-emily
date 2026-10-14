@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#f7f1e9">
+<meta name="robots" content="noindex,nofollow">
+<title>Estudio de diseño · Bautizo de Emily</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=Parisienne&family=Great+Vibes&family=Playfair+Display:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="./studio.css">
+</head>
+<body>
+<header class="topbar">
+  <div class="brand"><span class="brand-mark">✧</span><div><b>Estudio de Emily</b><small>Invitación editable · estilo Canva</small></div></div>
+  <div class="top-actions">
+    <button id="undo" class="square" title="Deshacer (Ctrl+Z)" aria-label="Deshacer">↶</button>
+    <button id="redo" class="square" title="Rehacer (Ctrl+Y)" aria-label="Rehacer">↷</button>
+    <span id="saving" class="saved">Borrador local</span>
+    <button id="save" class="muted">Guardar borrador</button>
+    <button id="publish" class="primary">Publicar cambios ↗</button>
+  </div>
+</header>
+<div class="workspace">
+  <nav class="rail" aria-label="Herramientas de diseño">
+    <button data-tool="design" class="active"><span>◈</span><small>Diseños</small></button>
+    <button data-tool="texts"><span>𝐓</span><small>Texto</small></button>
+    <button data-tool="elements"><span>✧</span><small>Elementos</small></button>
+    <button data-tool="uploads"><span>↥</span><small>Subir</small></button>
+    <button data-tool="layers"><span>▤</span><small>Capas</small></button>
+    <button data-tool="sections"><span>☷</span><small>Secciones</small></button>
+    <button data-tool="settings"><span>⚙</span><small>Datos</small></button>
+  </nav>
+  <aside class="library">
+    <div id="tool-title" class="panel-header">Diseños</div>
+    <div id="tool-content" class="panel-scroll"></div>
+  </aside>
+  <main class="stage-wrap">
+    <div class="stage-top">
+      <div class="stage-label">Vista móvil · toca un elemento para editarlo</div>
+      <div class="stage-control">
+        <select id="section-selector" title="Elegir pantalla" aria-label="Sección visible">
+          <option value="gate">Sobre</option>
+          <option value="portada">Portada</option>
+          <option value="familia">Familia</option>
+          <option value="fecha">Fecha</option>
+          <option value="ceremonia">Ceremonia</option>
+          <option value="vestimenta">Vestimenta</option>
+          <option value="asistencia">Confirmación</option>
+          <option value="album">Álbum</option>
+          <option value="despedida">Despedida</option>
+        </select>
+        <button id="edit-mode" class="pill active">✥ Editar</button>
+        <button id="test-mode" class="pill">▷ Probar</button>
+      </div>
+    </div>
+    <div class="preview-space">
+      <div class="phone-shell">
+        <div class="speaker"></div>
+        <iframe id="phone" title="Invitación de Emily, área de diseño" src="./index.html?editorPreview=envelope"></iframe>
+        <div class="homebar"></div>
+      </div>
+    </div>
+    <div class="stage-tip">Arrastra con el mouse o el dedo para mover · usa las propiedades para ajustes exactos · los cambios aún no son públicos</div>
+  </main>
+  <aside class="inspector">
+    <div id="inspector-title" class="panel-header">Propiedades</div>
+    <div id="inspector-content" class="panel-scroll"></div>
+  </aside>
+</div>
+<footer id="mobile-bar" class="mobile-bar">
+ <button data-mobile-tool="elements">✧ Elementos</button>
+ <button data-mobile-tool="texts">𝐓 Textos</button>
+ <button data-mobile-tool="layers">▤ Capas</button>
+ <button data-mobile-tool="inspector">⚙ Propiedades</button>
+</footer>
+<div id="modal" class="modal" hidden>
+ <div class="dialog">
+  <button class="dialog-close" id="modal-close" aria-label="Cerrar">✕</button>
+  <div id="modal-body"></div>
+ </div>
+</div>
+<input id="file-upload" type="file" accept="image/png,image/jpeg,image/webp" hidden>
+<script src="./config.js"></script>
+<script src="./studio.js"></script>
+</body></html>
