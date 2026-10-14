@@ -318,6 +318,18 @@ button,a{font:inherit}button{cursor:pointer}a{color:inherit}button:focus-visible
   [["days",d],["hours",h],["mins",m],["secs",s]].forEach(([id,num])=>applyText(id,String(num).padStart(2,"0")));
  }
  const editorMode=new URLSearchParams(location.search).get("editorPreview");
+ if(editorMode){
+  try{history.scrollRestoration="manual"}catch(e){}
+  window.scrollTo(0,0);
+ }
+ if(editorMode==="envelope"){
+  $("gate").classList.remove("hidden");
+  $("invitation").classList.remove("visible");
+  window.requestAnimationFrame(()=>window.scrollTo(0,0));
+  window.addEventListener("pageshow",e=>{
+   if(e.persisted){$("gate").classList.remove("hidden");$("invitation").classList.remove("visible");window.scrollTo(0,0);}
+  });
+ }
  if(editorMode==="cover"||editorMode==="sections"){
    $("gate").style.display="none";$("invitation").classList.add("visible");window.scrollTo(0,0);
  }
@@ -349,5 +361,5 @@ button,a{font:inherit}button{cursor:pointer}a{color:inherit}button:focus-visible
  update(defaults);interval=setInterval(tick,1000);
 })();
 </script>
-<script src="./visual-runtime.js"></script>
+<script src="./visual-runtime.js?v=20261014b"></script>
 </body></html>
