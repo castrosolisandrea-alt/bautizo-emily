@@ -642,6 +642,8 @@ function attach(){
  $("edit-mode").addEventListener("click",()=>setMode("edit"));
  $("test-mode").addEventListener("click",()=>setMode("test"));
  iframe.addEventListener("load",setupFrame);
+ // The iframe can finish loading before the editor script attaches listeners.
+ try{if(iframe.contentDocument?.readyState==="complete")setupFrame()}catch(e){}
  $("save").addEventListener("click",save);
  $("publish").addEventListener("click",()=>{save();modalPublish()});
  $("undo").addEventListener("click",undo);$("redo").addEventListener("click",redo);
