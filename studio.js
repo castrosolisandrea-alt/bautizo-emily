@@ -357,15 +357,15 @@ function drawTool(){
  }else if(tool==="settings"){
   toolHeading(area,"Información y conexiones");
   area.appendChild(p("Puedes continuar editando los textos, fechas, la iglesia y todos los enlaces aquí, sin entrar al código.","tool-note"));
-  field(area,"Título principal",settings,"first","text",()=>edit(()=>{}));
-  field(area,"Nombre",settings,"second","text",()=>edit(()=>{}));
-  field(area,"Google Forms para confirmar",settings,"googleFormUrl","url",()=>edit(()=>{}),"Solo el enlace público para responder, no el enlace de Sheets.");
-  field(area,"Enlace del álbum de fotos",settings,"albumUrl","url",()=>edit(()=>{}),"Activa la colaboración en Google Fotos para permitir subidas.");
-  field(area,"Límite anunciado",settings,"guestLimit","select",()=>edit(()=>{}),null,[
+  field(area,"Título principal",settings,"first","text");
+  field(area,"Nombre",settings,"second","text");
+  field(area,"Google Forms para confirmar",settings,"googleFormUrl","url",null,"Solo el enlace público para responder, no el enlace de Sheets.");
+  field(area,"Enlace del álbum de fotos",settings,"albumUrl","url",null,"Activa la colaboración en Google Fotos para permitir subidas.");
+  field(area,"Límite anunciado",settings,"guestLimit","select",null,null,[
    ["1","Una persona"],["2","Máximo dos"],["none","Ocultarlo"]]);
-  field(area,"Nombre de iglesia",settings,"church","text",()=>edit(()=>{}));
-  field(area,"Hora de ceremonia",settings,"ceremonyTime","text",()=>edit(()=>{}));
-  field(area,"Fecha real para contador",settings,"eventISO","text",()=>edit(()=>{}),"Ejemplo: 2026-11-21T11:00:00-05:00");
+  field(area,"Nombre de iglesia",settings,"church","text");
+  field(area,"Hora de ceremonia",settings,"ceremonyTime","text");
+  field(area,"Fecha real para contador",settings,"eventISO","text",null,"Ejemplo: 2026-11-21T11:00:00-05:00");
   area.appendChild(node("div","divider"));
   area.appendChild(button("Configuración detallada anterior ↗",()=>window.open("./editor.html","_blank"),"mini-button full"));
   area.appendChild(p("Si no quieres usar código, también puedo ayudarte a publicar cada cambio desde esta conversación.","info"));
@@ -479,18 +479,15 @@ function drawInspector(){
  if(isCustom&&["text","button"].includes(obj.kind)){
   field(holder,"Contenido del texto",obj,"text","textarea");
  }else if(!isCustom&&!isStructural&&!["cross","cover-floral"].includes(selected)){
-  const temp={text:settings.design.texts[selected]??find(selected)?.textContent?.trim()??""};
-  const input=field(holder,"Texto",temp,"text","textarea");
-  input.addEventListener("input",()=>{
-   settings.design.texts[selected]=input.value;sync();
-  });
+  if(settings.design.texts[selected]===undefined)settings.design.texts[selected]=find(selected)?.textContent?.trim()??"";
+  field(holder,"Texto",settings.design.texts,selected,"textarea");
  }
  if(isCustom&&obj.kind==="button")field(holder,"Enlace del botón",obj,"href","url");
  if(isOrnament){
   field(holder,"Tipo de adorno",obj,"shape","select",null,null,ornaments.map(([value,label])=>[value,label]));
  }
  if(!["envelopeWrap","dress-chips"].includes(selected)){
-  const fontObj=isCustom?obj:(settings.design.styles[selected]||{});
+  const fontObj=isCustom?obj:(settings.design.styles[selected]||(settings.design.styles[selected]={}));
   const fontsOptions=fonts.map(f=>[f,f]);
   if(!isImage&&!isOrnament&&selected!=="angel"&&selected!=="wax"){
    if(!isCustom&&!fontObj.font)fontObj.font=settings.font||"Cormorant Garamond";
