@@ -7,7 +7,17 @@
 <title>Estudio de diseño · Bautizo de Emily</title>
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=Parisienne&family=Great+Vibes&family=Playfair+Display:wght@400;500&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="./studio.css?v=20261014b">
+<link rel="stylesheet" href="./studio.css?v=20261014c">
+<script>
+window.addEventListener("error",function(ev){
+ var h=document.getElementById("editor-health");
+ if(h){h.style.background="#ffe9e6";h.style.color="#8b2821";h.textContent="El editor encontró un error: "+(ev.message||"No se pudo cargar una herramienta")+". Envíame una captura de este aviso.";}
+});
+window.addEventListener("unhandledrejection",function(ev){
+ var h=document.getElementById("editor-health");
+ if(h){h.style.background="#ffe9e6";h.style.color="#8b2821";h.textContent="Falló una función: "+String(ev.reason||"error")+". Envíame una captura.";}
+});
+</script>
 </head>
 <body>
 <header class="topbar">
@@ -20,6 +30,7 @@
     <button id="publish" class="primary">Publicar cambios ↗</button>
   </div>
 </header>
+<div id="editor-health" role="status" style="background:#fdf4df;border-bottom:1px solid #e6d6b7;color:#72552f;padding:8px 16px;font:12px system-ui">Cargando herramientas del editor…</div>
 <div class="workspace">
   <nav class="rail" aria-label="Herramientas de diseño">
     <button data-tool="design" class="active"><span>◈</span><small>Diseños</small></button>
@@ -56,7 +67,7 @@
     <div class="preview-space">
       <div class="phone-shell">
         <div class="speaker"></div>
-        <iframe id="phone" title="Invitación de Emily, área de diseño" src="./index.html?editorPreview=envelope&rev=20261014b"></iframe>
+        <iframe id="phone" title="Invitación de Emily, área de diseño" src="./index.html?editorPreview=envelope&rev=20261014c"></iframe>
         <div class="homebar"></div>
       </div>
     </div>
@@ -81,5 +92,5 @@
 </div>
 <input id="file-upload" type="file" accept="image/png,image/jpeg,image/webp" hidden>
 <script src="./config.js"></script>
-<script src="./studio.js?v=20261014b"></script>
+<script src="./studio.js?v=20261014c"></script>
 </body></html>
