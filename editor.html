@@ -1,0 +1,153 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Editor visual · Bautizo de Emily</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500&family=EB+Garamond:wght@400;500&family=Great+Vibes&family=Libre+Baskerville:wght@400;700&family=Playfair+Display:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;color:#41362e;background:#f5f0e9}
+*{box-sizing:border-box}
+body{margin:0}
+header{padding:16px 22px;background:#fffdf8;border-bottom:1px solid #e6d8c7;display:flex;justify-content:space-between;align-items:center;gap:14px;flex-wrap:wrap}
+header h1{font-family:"Cormorant Garamond",Georgia,serif;font-weight:500;font-size:31px;margin:0;color:#ad8854}
+header p{font-size:12px;color:#7f776d;margin:2px 0}
+a{color:#90692f}
+main{padding:20px;display:grid;grid-template-columns:minmax(310px,460px) minmax(320px,1fr);gap:20px;max-width:1500px;margin:auto}
+aside,.viewer{background:#fffdfa;border:1px solid #e6d8c7;border-radius:17px;padding:22px}
+aside{max-height:calc(100vh - 116px);overflow:auto}
+fieldset{border:1px solid #e6d8c7;border-radius:13px;margin:0 0 16px;padding:14px}
+legend{font-family:"Cormorant Garamond",Georgia,serif;font-style:italic;font-size:27px;color:#af8c55;padding:0 6px}
+label{display:block;margin:0 0 13px;font-size:13px;font-weight:600;line-height:1.5}
+input,select{width:100%;border:1px solid #d6c9b9;background:#fff;border-radius:9px;padding:10px 11px;color:#423629;font-size:15px;font-family:inherit;margin-top:5px}
+input[type=color]{padding:3px;height:41px}
+input[type=checkbox]{width:auto;vertical-align:middle;margin-right:9px}
+button{border:0;border-radius:9px;padding:12px 16px;font-size:14px;font-weight:600;cursor:pointer;background:#b8955d;color:#fff}
+button.ghost{background:#f1e7d9;color:#5a4533}
+button:hover{filter:brightness(.98)}
+.actions{display:flex;gap:8px;flex-wrap:wrap;margin:14px 0}
+.hint{line-height:1.5;font-size:12px;color:#7d7063}
+#status{font-size:13px;color:#49704a;min-height:20px}
+.viewer{text-align:center}
+.viewer h2{font-family:"Cormorant Garamond",serif;font-size:30px;font-weight:500;margin:0;color:#9b7848}
+.tools{display:flex;align-items:center;justify-content:center;gap:8px;margin:10px 0}
+.tools button{padding:8px 13px}
+.tools button.active{background:#b8955d;color:white}
+.tools button:not(.active){background:#efe6db;color:#655542}
+iframe{border:9px solid #2a2a29;border-radius:39px;width:min(100%,390px);height:min(78vh,740px);background:#fff;box-shadow:0 13px 38px #7773;display:block;margin:12px auto}
+@media(max-width:870px){main{grid-template-columns:1fr;padding:10px}aside{max-height:none}iframe{height:650px}.viewer{padding:12px}}
+</style>
+</head>
+<body>
+<header>
+  <div><h1>Editor de Emily</h1><p>Personaliza la invitación y comprueba cómo se ve desde el celular.</p></div>
+  <a href="./index.html" target="_blank" rel="noopener">Abrir invitación completa ↗</a>
+</header>
+<main>
+  <aside>
+    <fieldset><legend>Portada</legend>
+      <label>Primera línea<input id="first" maxlength="45" placeholder="Bautizo de"></label>
+      <label>Segunda línea<input id="second" maxlength="45" placeholder="Emily"></label>
+      <label>Una sola tipografía para las dos líneas
+        <select id="font">
+          <option>Cormorant Garamond</option>
+          <option>EB Garamond</option>
+          <option>Playfair Display</option>
+          <option>Libre Baskerville</option>
+          <option>Georgia</option>
+          <option>Great Vibes</option>
+        </select>
+      </label>
+      <label>Tamaño de «Bautizo de» (px)<input type="range" min="20" max="72" step="1" id="firstSize"><output id="firstSizeOut"></output></label>
+      <label>Tamaño de «Emily» (px)<input type="range" min="30" max="115" step="1" id="secondSize"><output id="secondSizeOut"></output></label>
+    </fieldset>
+    <fieldset><legend>Fecha</legend>
+      <label>Día<input id="day" maxlength="2" inputmode="numeric"></label>
+      <label>Mes<input id="month" maxlength="20"></label>
+      <label>Año<input id="year" maxlength="4" inputmode="numeric"></label>
+      <label>Tamaño del número 21 (px)<input id="daySize" type="range" min="35" max="118"><output id="daySizeOut"></output></label>
+    </fieldset>
+    <fieldset><legend>Colores y detalles</legend>
+      <label>Dorado champagne<input type="color" id="gold"></label>
+      <label>Blanco marfil<input type="color" id="ivory"></label>
+      <label>Frase opcional bajo la fecha<input id="subtitle" maxlength="120" placeholder="Opcional"></label>
+      <label><input type="checkbox" id="showSubtitle">Mostrar frase opcional</label>
+    </fieldset>
+    <fieldset><legend>Sobre</legend>
+      <label>Texto del botón para abrir<input id="envelopeButton" maxlength="35"></label>
+      <p class="hint">Los colores marfil y dorado también armonizan con el sobre. Más adelante podremos agregar el angelito de la apertura.</p>
+    </fieldset>
+    <div class="actions">
+      <button id="save" type="button">Guardar borrador</button>
+      <button id="copy" class="ghost" type="button">Copiar cambios</button>
+      <button id="download" class="ghost" type="button">Descargar config.js</button>
+      <button id="reset" class="ghost" type="button">Restaurar original</button>
+    </div>
+    <p id="status" role="status"></p>
+    <p class="hint"><strong>Importante:</strong> el editor guarda pruebas solo en tu navegador. Para publicar tus cambios, pulsa <strong>Copiar cambios</strong>, abre <a href="https://github.com/castrosolisandrea-alt/bautizo-emily/blob/main/config.js" target="_blank" rel="noopener">config.js en GitHub</a>, pulsa el lápiz, reemplaza su contenido por lo copiado y haz <strong>Commit changes</strong>. Así se actualizará el enlace público.</p>
+  </aside>
+  <section class="viewer">
+    <h2>Vista previa interactiva</h2>
+    <p class="hint">Los cambios aparecen sin necesidad de publicar.</p>
+    <div class="tools"><button id="previewCover" type="button" class="active">Ver portada</button><button id="previewEnvelope" type="button">Ver sobre</button></div>
+    <iframe id="phone" title="Vista previa de la invitación de Emily" src="./index.html?editorPreview=cover"></iframe>
+    <p class="hint">Para ver todos los efectos del sobre, selecciona «Ver sobre» y toca su botón.</p>
+  </section>
+</main>
+<script src="./config.js"></script>
+<script>
+(function(){
+  const fields=["first","second","font","firstSize","secondSize","day","month","year","daySize","gold","ivory","envelopeButton","subtitle","showSubtitle"];
+  const original=Object.assign({},window.EMILY_CONFIG||{});
+  let settings={...original};
+  try{const v=localStorage.getItem("emily-draft-v1"); if(v)settings={...original,...JSON.parse(v)};}catch(e){}
+  function get(id){return document.getElementById(id)}
+  function display(){
+    fields.forEach(k=>{const input=get(k);if(!input)return;if(input.type==="checkbox")input.checked=!!settings[k];else input.value=settings[k]??"";});
+    ["firstSize","secondSize","daySize"].forEach(k=>get(k+"Out").value=settings[k]+" px");
+    updateFrame();
+  }
+  function read(){
+    fields.forEach(k=>{const el=get(k);settings[k]=el.type==="checkbox"?el.checked:el.type==="range"?Number(el.value):el.value;});
+    ["firstSize","secondSize","daySize"].forEach(k=>get(k+"Out").value=settings[k]+" px");
+    updateFrame();
+  }
+  function updateFrame(){
+    const frame=get("phone");
+    if(frame.contentWindow)frame.contentWindow.postMessage({type:"emily-preview-update",config:settings},location.origin);
+  }
+  fields.forEach(k=>get(k).addEventListener("input",read));
+  get("phone").addEventListener("load",()=>setTimeout(updateFrame,80));
+  function code(){return "/* Configuración visual creada con editor.html. */\nwindow.EMILY_CONFIG = "+JSON.stringify(settings,null,2)+";\n";}
+  function setStatus(s){get("status").textContent=s}
+  get("save").addEventListener("click",()=>{
+    localStorage.setItem("emily-draft-v1",JSON.stringify(settings));
+    setStatus("Borrador guardado en este navegador. Todavía no se ha publicado.");
+  });
+  get("copy").addEventListener("click",async()=>{
+    try{await navigator.clipboard.writeText(code());setStatus("Configuración copiada. Pégala en config.js de GitHub y confirma los cambios.");}
+    catch(e){setStatus("No se pudo copiar; utiliza «Descargar config.js» o abre el editor desde HTTPS.");}
+  });
+  get("download").addEventListener("click",()=>{
+    const blob=new Blob([code()],{type:"text/javascript;charset=utf-8"}),url=URL.createObjectURL(blob),a=document.createElement("a");
+    a.href=url;a.download="config.js";document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),2000);
+    setStatus("Archivo descargado. Para que sea público, actualiza config.js en tu repositorio.");
+  });
+  get("reset").addEventListener("click",()=>{
+    if(!window.confirm("¿Restaurar las opciones originales de esta versión?"))return;
+    settings={...original};localStorage.removeItem("emily-draft-v1");display();setStatus("Diseño original restaurado en el editor.");
+  });
+  function preview(type){
+    get("phone").src=type==="cover"?"./index.html?editorPreview=cover":"./index.html?editorPreview=envelope";
+    get("previewCover").classList.toggle("active",type==="cover");
+    get("previewEnvelope").classList.toggle("active",type!=="cover");
+  }
+  get("previewCover").addEventListener("click",()=>preview("cover"));
+  get("previewEnvelope").addEventListener("click",()=>preview("envelope"));
+  display();
+})();
+</script>
+</body>
+</html>
