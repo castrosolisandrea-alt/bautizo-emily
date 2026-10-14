@@ -137,8 +137,9 @@ function createExtra(item){
  }
  if(canColor(item.background))el.style.background=item.background;
  if(item.opacity!=null)el.style.opacity=cap(item.opacity,0,1,1);
+ section.appendChild(el);
  geometry(el,item.position||{x:20,y:35,w:60,z:30});
- section.appendChild(el);lastCustom.push(el);
+ lastCustom.push(el);
 }
 function apply(design,config){
  activeCfg=config||window.EMILY_CONFIG||{};
