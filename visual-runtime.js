@@ -8,7 +8,7 @@ let lastHidden=new Set();
 let lastBackgrounds=new Set();
 let activeCfg=window.EMILY_CONFIG||{};
 const originalIds=[
-"envelopeWrap","open","angel","wax","cover-floral","cross","cover-title-line","cover-name",
+"envelopeWrap","open","angel","wax","envelope-floral-top","envelope-floral-bottom","cover-floral","cross","cover-title-line","cover-name",
 "cover-day","cover-month","cover-year","cover-subtitle","cover-button","blessing",
 "parents-heading","parents","godmother-heading","godmother",
 "countdown-heading","date-large","month-top","weekday-year","calendar",
@@ -55,7 +55,10 @@ function restore(){
   if(id==="angel"&&canColor(activeCfg.angelWings))el.style.setProperty("--angel-wings",activeCfg.angelWings);
   if(el.dataset.imageOverridden==="1"){el.innerHTML=snapshot.markup;delete el.dataset.imageOverridden;}
   if(lastHidden.has(id)){
-   const special={cross:activeCfg.coverCross===false,"cover-floral":activeCfg.coverFlowers===false,wax:activeCfg.showSeal===false,
+   const special={
+    "envelope-floral-top":activeCfg.showEnvelopeFlowers===false||activeCfg.showFlowers===false,
+    "envelope-floral-bottom":activeCfg.showEnvelopeFlowers===false||activeCfg.showFlowers===false,
+    cross:activeCfg.coverCross===false,"cover-floral":activeCfg.coverFlowers===false,wax:activeCfg.showSeal===false,
     "cover-subtitle":!activeCfg.showSubtitle||!activeCfg.subtitle,
     "rsvp-button":!activeCfg.googleFormUrl||activeCfg.embedGoogleForm===true,
     "album-button":!activeCfg.albumUrl};
