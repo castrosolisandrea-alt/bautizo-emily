@@ -78,6 +78,23 @@ footer{font-size:23px;color:#a78756;text-align:center;padding:80px 24px;backgrou
 .mute{position:fixed;bottom:16px;right:16px;z-index:20;border:1px solid #d9c39e;border-radius:50%;background:#fbf8f2;width:45px;height:45px;color:#9d8051;display:none}
 @media(min-width:521px){.gate{max-width:520px;margin:auto}.gate-inner{gap:54px}.page{border-left:1px solid #f0ebe1;border-right:1px solid #f0ebe1}}
 @media(prefers-reduced-motion:reduce){*,*:before,*:after{animation-duration:.01ms!important;transition-duration:.01ms!important}html{scroll-behavior:auto}}
+
+/* Portada editable: una misma familia tipográfica en los dos renglones. */
+.cover{min-height:100svh;position:relative;justify-content:center;gap:14px;background:var(--papel);padding:70px 26px 48px}
+.cover .cross{width:67px;height:84px;color:var(--dorado);margin-bottom:30px}
+.title-stack{display:flex;flex-direction:column;align-items:center;gap:0;width:100%;line-height:.95}
+.cover-title{font-family:"Cormorant Garamond",Georgia,serif;font-style:normal;font-weight:400;color:var(--dorado);letter-spacing:.005em;text-align:center;margin:0!important;font-size:43px;line-height:1.02}
+.cover-title.second{font-size:85px;line-height:.91;margin-top:7px!important}
+.date-block{margin-top:35px;display:flex;flex-direction:column;align-items:center;gap:7px;color:var(--dorado)}
+.cover-day{font-size:83px;line-height:.83;font-family:"Cormorant Garamond",Georgia,serif;font-weight:400}
+.cover-month-year{font-size:13px;letter-spacing:.24em;color:#806e59;display:flex;align-items:center;gap:9px;font-family:"Libre Baskerville",Georgia,serif}
+.cover-subtitle{font-size:17px!important;font-style:italic;color:#8e805e}
+.cover .gold-button{background:transparent;color:var(--dorado);border-color:#d7c19d;font-size:17px;margin-top:16px}
+.scroll-cue{font-size:26px;color:#d6bb89;margin-top:6px}
+.cover-sprig{position:absolute;font-size:32px;color:#c9b58d;opacity:.48;top:23px}
+.sprig-left{left:26px}.sprig-right{right:26px}
+[hidden]{display:none!important}
+@media(max-height:700px){.cover{padding-top:38px;padding-bottom:30px;gap:9px}.cover .cross{margin-bottom:7px;height:58px}.date-block{margin-top:17px}.cover .gold-button{margin-top:5px}}
 </style>
 </head>
 <body>
@@ -102,11 +119,19 @@ footer{font-size:23px;color:#a78756;text-align:center;padding:80px 24px;backgrou
 </div>
 <main id="invitation" class="page" aria-label="Invitación al bautismo de Emily">
   <section class="section cover" id="portada">
-    <div class="cross" aria-hidden="true"><svg viewBox="0 0 80 90"><path d="M40 8V75M21 27H59" stroke="#bd9e69" stroke-width="5" fill="none"/><path d="M21 47Q7 38 17 23 M58 47 Q74 38 64 23" stroke="#adaf98" stroke-width="1.2" fill="none"/><circle cx="17" cy="24" r="3.5" fill="#e8dfca"/><circle cx="64" cy="24" r="3.5" fill="#e8dfca"/><circle cx="26" cy="41" r="3.2" fill="#e8dfca"/><circle cx="54" cy="41" r="3.2" fill="#e8dfca"/></svg></div>
-    <h1 class="eyebrow">Bautismo de</h1>
-    <div class="name">Emily</div>
-    <div class="photo-oval" aria-label="Lugar reservado para la fotografía de Emily">Aquí irá la fotografía de Emily</div>
-    <div class="date">21 · noviembre · 2026</div>
+    <div class="cover-sprig sprig-left" aria-hidden="true">✧</div>
+    <div class="cover-sprig sprig-right" aria-hidden="true">✧</div>
+    <div class="cross" aria-hidden="true"><svg viewBox="0 0 80 90"><path d="M40 6V77M20 28H60" stroke="currentColor" stroke-width="5" fill="none"/><path d="M23 48Q11 36 20 25 M57 48Q70 36 61 25" stroke="#bac0a9" stroke-width="1.3" fill="none"/><circle cx="19" cy="26" r="3.5" fill="#e7d4b8"/><circle cx="61" cy="26" r="3.5" fill="#e7d4b8"/><circle cx="25" cy="40" r="2.7" fill="#e7d4b8"/><circle cx="55" cy="40" r="2.7" fill="#e7d4b8"/></svg></div>
+    <div class="title-stack" aria-label="Bautizo de Emily">
+      <h1 class="cover-title" id="cover-title-line">Bautizo de</h1>
+      <div class="cover-title second" id="cover-name">Emily</div>
+    </div>
+    <div class="date-block" aria-label="21 de noviembre de 2026">
+      <div class="cover-day" id="cover-day">21</div>
+      <div class="cover-month-year"><span id="cover-month">NOVIEMBRE</span><span class="date-middle">·</span><span id="cover-year">2026</span></div>
+    </div>
+    <p class="cover-subtitle" id="cover-subtitle" hidden></p>
+    <div class="scroll-cue" aria-hidden="true">✧</div>
     <a class="gold-button" href="#familia">Descubre mi invitación</a>
   </section>
   <section class="section parents" id="familia">
@@ -156,6 +181,54 @@ footer{font-size:23px;color:#a78756;text-align:center;padding:80px 24px;backgrou
   </section>
   <footer><div class="golden-divider">✝</div><p>Queremos compartir contigo este momento tan especial.</p><h2 style="font-weight:400;font-style:italic;font-size:48px">¡Te esperamos!</h2></footer>
 </main>
+<script src="./config.js"></script>
+<script>
+/* Personalización: el archivo config.js se edita desde editor.html.
+   En el editor, los cambios se previsualizan sin alterar la web pública. */
+(function(){
+  const allowedFonts = {
+    "Cormorant Garamond": '"Cormorant Garamond", Georgia, serif',
+    "Libre Baskerville": '"Libre Baskerville", Georgia, serif',
+    "Playfair Display": '"Playfair Display", Georgia, serif',
+    "EB Garamond": '"EB Garamond", Georgia, serif',
+    "Great Vibes": '"Great Vibes", cursive',
+    "Georgia": 'Georgia, serif'
+  };
+  function apply(c){
+    if(!c || typeof c !== "object")return;
+    const choose=(s, fallback)=> typeof s==="string"?s:fallback;
+    const setText=(id,value)=>{const el=document.getElementById(id);if(el)el.textContent=value;};
+    setText("cover-title-line",choose(c.first,"Bautizo de"));
+    setText("cover-name",choose(c.second,"Emily"));
+    setText("cover-day",choose(c.day,"21"));
+    setText("cover-month",choose(c.month,"NOVIEMBRE"));
+    setText("cover-year",choose(c.year,"2026"));
+    setText("open",choose(c.envelopeButton,"TOCA PARA ABRIR"));
+    const line=document.getElementById("cover-title-line"), name=document.getElementById("cover-name"), day=document.getElementById("cover-day");
+    const font=allowedFonts[c.font]||allowedFonts["Cormorant Garamond"];
+    line.style.fontFamily=font;name.style.fontFamily=font;
+    const size=(n,def,min,max)=>Number.isFinite(+n)?Math.min(max,Math.max(min,+n)):def;
+    line.style.fontSize=size(c.firstSize,43,20,72)+"px";
+    name.style.fontSize=size(c.secondSize,85,30,115)+"px";
+    day.style.fontSize=size(c.daySize,83,35,118)+"px";
+    const col=/^#[0-9a-fA-F]{6}$/;
+    if(col.test(c.gold||""))document.documentElement.style.setProperty("--dorado",c.gold);
+    if(col.test(c.ivory||""))document.documentElement.style.setProperty("--papel",c.ivory);
+    const st=document.getElementById("cover-subtitle");
+    if(st){st.textContent=choose(c.subtitle,"");st.hidden=!c.showSubtitle||!c.subtitle;}
+  }
+  apply(window.EMILY_CONFIG||{});
+  window.addEventListener("message",event=>{
+    if(event.origin!==window.location.origin || event.data?.type!=="emily-preview-update") return;
+    apply(event.data.config);
+  });
+  if(new URLSearchParams(window.location.search).get("editorPreview")==="cover"){
+    document.getElementById("gate").style.display="none";
+    document.getElementById("invitation").classList.add("visible");
+    window.scrollTo(0,0);
+  }
+})();
+</script>
 <script>
 (function(){
   var gate=document.getElementById("gate"), envelope=document.getElementById("envelope"), main=document.getElementById("invitation"), open=document.getElementById("open");
