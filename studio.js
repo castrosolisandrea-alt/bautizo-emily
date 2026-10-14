@@ -18,7 +18,7 @@ function clean(d){const result=d&&typeof d==="object"?d:{};return{
 let settings={...clone(base),design:clean(clone(base.design||{}))};
 try{const saved=localStorage.getItem("emily-studio-v1");if(saved){const o=JSON.parse(saved);settings={...settings,...o,design:clean(o.design)}}}catch(e){}
 const history=[],future=[];
-const nativeIds=["envelopeWrap","open","angel","wax","cover-floral","cross","cover-title-line","cover-name","cover-day","cover-month","cover-year","cover-subtitle","cover-button","blessing","parents-heading","parents","godmother-heading","godmother","countdown-heading","month-top","date-large","weekday-year","calendar","ceremony-heading","church","church-location","ceremony-time","maps-button","dress-heading","dress-text","dress-chips","rsvp-heading","rsvp-message","rsvp-button","album-heading","album-message","album-button","closing-message","closing-title"];
+const nativeIds=["envelopeWrap","open","angel","wax","envelope-floral-top","envelope-floral-bottom","cover-floral","cross","cover-title-line","cover-name","cover-day","cover-month","cover-year","cover-subtitle","cover-button","blessing","parents-heading","parents","godmother-heading","godmother","countdown-heading","month-top","date-large","weekday-year","calendar","ceremony-heading","church","church-location","ceremony-time","maps-button","dress-heading","dress-text","dress-chips","rsvp-heading","rsvp-message","rsvp-button","album-heading","album-message","album-button","closing-message","closing-title"];
 const sectionDefs=[
  ["gate","Sobre",null],["portada","Portada",null],["familia","Familia","showFamily"],
  ["fecha","Cuenta regresiva","showCountdown"],["ceremonia","Ceremonia","showCeremony"],
@@ -33,6 +33,7 @@ const ornaments=[
 ];
 const nativeLabels={
  envelopeWrap:"Sobre completo",open:"Botón abrir",angel:"Angelito",wax:"Sello",cross:"Cruz",
+ "envelope-floral-top":"Flores de la esquina superior","envelope-floral-bottom":"Flores de la esquina inferior",
  "cover-floral":"Flores de portada","cover-title-line":"Bautizo de","cover-name":"Emily",
  "cover-day":"Número del día","cover-month":"Mes","cover-year":"Año",
  "cover-subtitle":"Frase opcional","cover-button":"Botón portada",
@@ -484,10 +485,11 @@ function drawInspector(){
  const isOrnament=isCustom&&obj.kind==="ornament";
  const style=settings.design.styles[selected]||{};
  const isStructural=["envelopeWrap","angel","wax","dress-chips"].includes(selected);
- holder.appendChild(p("Arrastra el elemento directamente sobre el celular. Los cambios quedan en tu borrador hasta publicarlos.","tool-note"));
+ const isNativeDrawing=["cross","cover-floral","envelope-floral-top","envelope-floral-bottom"].includes(selected);
+ holder.appendChild(p(isNativeDrawing?"Puedes mover estas flores, agrandarlas, quitarlas o sustituirlas por tu propia imagen.":"Selecciona el elemento y arrástralo o usa los botones flotantes ↑ ↓ − + sobre la invitación.","tool-note"));
  if(isCustom&&["text","button"].includes(obj.kind)){
   field(holder,"Contenido del texto",obj,"text","textarea");
- }else if(!isCustom&&!isStructural&&!["cross","cover-floral"].includes(selected)){
+ }else if(!isCustom&&!isStructural&&!isNativeDrawing){
   if(settings.design.texts[selected]===undefined)settings.design.texts[selected]=find(selected)?.textContent?.trim()??"";
   field(holder,"Texto",settings.design.texts,selected,"textarea");
  }
@@ -498,7 +500,7 @@ function drawInspector(){
  if(!["envelopeWrap","dress-chips"].includes(selected)){
   const fontObj=isCustom?obj:(settings.design.styles[selected]||(settings.design.styles[selected]={}));
   const fontsOptions=fonts.map(f=>[f,f]);
-  if(!isImage&&!isOrnament&&selected!=="angel"&&selected!=="wax"){
+  if(!isImage&&!isOrnament&&!isNativeDrawing&&selected!=="angel"&&selected!=="wax"){
    if(!isCustom&&!fontObj.font)fontObj.font=settings.font||"Cormorant Garamond";
    field(holder,"Tipografía",fontObj,"font","select",null,null,fontsOptions);
    field(holder,"Tamaño de letra",fontObj,isCustom?"size":"size","number");
@@ -527,11 +529,19 @@ function drawInspector(){
   holder.appendChild(button("Cambiar angelito por imagen",()=>{fileMode="replace";triggerFile()},"mini-button full"));
   holder.appendChild(button("Restaurar angelito original",()=>edit(()=>{settings.angelImageUrl=""}),"mini-button full"));
  }else if(!["envelopeWrap","open","dress-chips"].includes(selected)){
-  holder.appendChild(button("Subir imagen para reemplazar",()=>{fileMode="replace";triggerFile()},"mini-button full"));
+  holder.appendChild(button(isNativeDrawing?"↥ Reemplazar por mi propia imagen":"Subir imagen para reemplazar",()=>{fileMode="replace";triggerFile()},"mini-button full"));
  }
  if(settings.design.images[selected]){
   holder.appendChild(button("Restaurar imagen original",()=>edit(()=>{delete settings.design.images[selected]}),"mini-button full"));
  }
+ const quick=node("div","buttons-row");
+ quick.appendChild(button("↑ Subir",()=>nudgeSelected(-15),"mini-button"));
+ quick.appendChild(button("↓ Bajar",()=>nudgeSelected(15),"mini-button"));
+ quick.appendChild(button("− Reducir",()=>resizeSelected(0.85),"mini-button"));
+ quick.appendChild(button("+ Agrandar",()=>resizeSelected(1.18),"mini-button primary"));
+ holder.appendChild(node("div","divider"));
+ holder.appendChild(node("h3","","Mover y cambiar tamaño"));
+ holder.appendChild(quick);
  const actions=node("div","buttons-row");
  actions.appendChild(button("Duplicar",duplicateSelected));
  if(!isCustom)actions.appendChild(button(settings.design.hidden.includes(selected)?"Mostrar":"Ocultar",()=>edit(()=>toggleHidden(selected))));
