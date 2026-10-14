@@ -240,6 +240,43 @@ iframe{width:min(100%,408px);height:min(77vh,780px);min-height:520px;border:9px 
   });
   wrap._paint=paint;return wrap;
  }
+
+ function angelUploadControls(panel){
+  const card=document.createElement("div");
+  card.style.cssText="border:1px dashed #d1b68c;border-radius:13px;background:#fcf9f4;padding:14px;margin:16px 0;";
+  const t=document.createElement("strong");t.textContent="Subir ilustración del angelito";card.appendChild(t);
+  const explain=document.createElement("p");explain.style.cssText="font-size:12px;line-height:1.5;color:#786957;";
+  explain.textContent="Puedes elegir un PNG, JPG o WebP. Se reducirá de tamaño para incluirlo en config.js. Es una imagen pública: no uses una foto privada de la niña.";
+  card.appendChild(explain);
+  const input=document.createElement("input");input.type="file";input.accept="image/png,image/jpeg,image/webp";input.style.maxWidth="100%";card.appendChild(input);
+  const reset=document.createElement("button");reset.className="secondary";reset.style.cssText="display:block;margin-top:10px;";
+  reset.type="button";reset.textContent="Volver al angelito original";
+  reset.addEventListener("click",()=>{
+    settings.angelImageUrl="";draw();updateFrame();say("Se restauró el angelito ilustrado original.");
+  });
+  input.addEventListener("change",()=>{
+    const file=input.files?.[0];if(!file)return;
+    if(!["image/jpeg","image/png","image/webp"].includes(file.type)){say("Utiliza PNG, JPG o WebP.");return;}
+    if(file.size>8*1024*1024){say("Esa imagen es demasiado grande. Elige una menor de 8 MB.");return;}
+    const url=URL.createObjectURL(file),img=new Image();
+    img.onload=()=>{
+      try{
+        const ratio=Math.min(1,512/Math.max(img.naturalWidth,img.naturalHeight));
+        const canvas=document.createElement("canvas");
+        canvas.width=Math.max(1,Math.round(img.naturalWidth*ratio));
+        canvas.height=Math.max(1,Math.round(img.naturalHeight*ratio));
+        const ctx=canvas.getContext("2d");ctx.drawImage(img,0,0,canvas.width,canvas.height);
+        let data=canvas.toDataURL("image/webp",.76);
+        if(!/^data:image\/webp;base64,/.test(data))data=canvas.toDataURL("image/png");
+        if(data.length>=600000){say("La imagen sigue siendo demasiado grande. Usa otra más pequeña.");return;}
+        settings.angelImageUrl=data;draw();updateFrame();say("Nueva ilustración cargada en la vista previa. Guarda el borrador y luego publica config.js.");
+      }finally{URL.revokeObjectURL(url);}
+    };
+    img.onerror=()=>{URL.revokeObjectURL(url);say("No se pudo abrir la imagen.");};
+    img.src=url;
+  });
+  card.appendChild(reset);panel.appendChild(card);
+ }
  function draw(){
   buildTabs();const term=$("search").value.trim().toLowerCase(),panel=$("panel");
   panel.replaceChildren();
@@ -248,6 +285,7 @@ iframe{width:min(100%,408px);height:min(77vh,780px);min-height:520px;border:9px 
   const p=document.createElement("p");p.className="group-desc";p.textContent=term?visible.length+" opciones encontradas":groups[currentGroup][1];panel.appendChild(p);
   if(!visible.length){const x=document.createElement("p");x.textContent="No encontramos esa opción.";panel.appendChild(x);}
   visible.forEach(f=>{const el=createField(f);panel.appendChild(el);el._paint();});
+  if((!term&&currentGroup===1)||(term&&("ilustración subir foto angelito".includes(term))))angelUploadControls(panel);
  }
  function updateFrame(){try{$("phone").contentWindow.postMessage({type:"emily-preview-update",config:settings},location.origin);}catch(e){}}
  $("search").addEventListener("input",draw);
