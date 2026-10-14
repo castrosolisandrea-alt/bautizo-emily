@@ -10,7 +10,7 @@ window.EMILY_CONFIG = {
   bodySize:22, headingSize:45, sectionPadding:68,
   showFlowers:true, showDividers:true,
   // Sobre interactivo y angelito
-  envelopeShape:"square", envelopeSize:292, envelopeHeight:0,
+  envelopeShape:"square", envelopeSize:292,
   envelopePaper:"#F7F1E7", envelopeBorder:"#DCC5A2",
   envelopeSatin:"#C9A66B", envelopeTexture:true,
   envelopeShadow:true, showEnvelopeFlowers:true, showSeal:true, sealSymbol:"dove",
