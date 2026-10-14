@@ -4,6 +4,8 @@
 "use strict";
 const base=new Map();
 let lastCustom=[];
+let lastHidden=new Set();
+let activeCfg=window.EMILY_CONFIG||{};
 const originalIds=[
 "envelopeWrap","open","angel","wax","cover-floral","cross","cover-title-line","cover-name",
 "cover-day","cover-month","cover-year","cover-subtitle","cover-button","blessing",
@@ -33,13 +35,13 @@ function start(){
  window.__emilyVisualUpdate=function(){
    const cfg=window.EMILY_CONFIG||{};
    const design=cfg.design||{};
-   apply(design);
+   apply(design,cfg);
  };
- apply((window.EMILY_CONFIG||{}).design||{});
+ apply((window.EMILY_CONFIG||{}).design||{},window.EMILY_CONFIG||{});
  window.addEventListener("message",event=>{
    if(event.origin!==location.origin||event.data?.type!=="emily-preview-update")return;
    // Wait until the main invitation script has updated the underlying content.
-   queueMicrotask(()=>apply((event.data.config||{}).design||{}));
+   queueMicrotask(()=>apply((event.data.config||{}).design||{},event.data.config||{}));
  });
 }
 function restore(){
@@ -47,7 +49,13 @@ function restore(){
   const el=lookup(id),snapshot=base.get(id);if(!el||!snapshot)continue;
   el.setAttribute("style",snapshot.css);
   if(el.dataset.imageOverridden==="1"){el.innerHTML=snapshot.markup;delete el.dataset.imageOverridden;}
-  // Hidden is subsequently coordinated by main script via config.
+  if(lastHidden.has(id)){
+   const special={cross:activeCfg.coverCross===false,"cover-floral":activeCfg.coverFlowers===false,wax:activeCfg.showSeal===false,
+    "cover-subtitle":!activeCfg.showSubtitle||!activeCfg.subtitle,
+    "rsvp-button":!activeCfg.googleFormUrl||activeCfg.embedGoogleForm===true,
+    "album-button":!activeCfg.albumUrl};
+   el.hidden=Object.prototype.hasOwnProperty.call(special,id)?special[id]:false;
+  }
  }
  for(const el of lastCustom){el.remove()}
  lastCustom=[];
@@ -69,6 +77,7 @@ function geometry(el,placement){
 }
 function decorationsSvg(kind){
  const strok='#bda06a';
+ if(kind==="angel")return '<svg viewBox="0 0 120 140" aria-hidden="true" style="width:100%;height:100%"><ellipse cx="60" cy="14" rx="26" ry="6" fill="none" stroke="currentColor" stroke-width="2"/><path d="M37 75Q9 38 5 66Q5 103 44 103M83 75Q111 38 115 66Q115 103 76 103" fill="#fff" stroke="currentColor" stroke-width="1.5"/><path d="M39 88Q60 75 81 88L94 137H26Z" fill="#f1e6d3" stroke="currentColor"/><circle cx="60" cy="53" r="29" fill="#f7dfc3" stroke="currentColor"/><path d="M33 48Q30 18 55 20Q83 9 89 45Q74 25 60 30Q42 30 33 48Z" fill="#b89a75"/><circle cx="50" cy="56" r="2" fill="#66523c"/><circle cx="70" cy="56" r="2" fill="#66523c"/><path d="M54 69Q60 73 66 69" fill="none" stroke="#ae806e" stroke-width="2"/></svg>';
  if(kind==="cross")return '<svg viewBox="0 0 100 125" aria-hidden="true" style="width:100%;height:100%"><path d="M50 4V119M14 36H86" fill="none" stroke="currentColor" stroke-width="6" stroke-linecap="round"/></svg>';
  if(kind==="dove")return '<svg viewBox="0 0 150 115" aria-hidden="true" style="width:100%;height:100%"><path d="M7 68 Q47 55 58 24 Q66 62 83 50 Q123 26 145 9 Q135 64 94 76 Q70 110 37 95 Q49 85 51 76 Q22 90 7 68Z" fill="none" stroke="currentColor" stroke-width="2"/></svg>';
  if(kind==="flower")return '<svg viewBox="0 0 120 120" aria-hidden="true" style="width:100%;height:100%"><path d="M65 72Q55 90 48 115" stroke="#a2ae9a" stroke-width="2" fill="none"/><g fill="#fffefa" stroke="currentColor" stroke-width="1.6"><ellipse cx="60" cy="44" rx="13" ry="30"/><ellipse cx="60" cy="44" rx="13" ry="30" transform="rotate(72 60 44)"/><ellipse cx="60" cy="44" rx="13" ry="30" transform="rotate(144 60 44)"/><ellipse cx="60" cy="44" rx="13" ry="30" transform="rotate(216 60 44)"/><ellipse cx="60" cy="44" rx="13" ry="30" transform="rotate(288 60 44)"/></g><circle cx="60" cy="44" r="9" fill="#dcbf85"/></svg>';
@@ -126,7 +135,8 @@ function createExtra(item){
  geometry(el,item.position||{x:20,y:35,w:60,z:30});
  section.appendChild(el);lastCustom.push(el);
 }
-function apply(design){
+function apply(design,config){
+ activeCfg=config||window.EMILY_CONFIG||{};
  restore();
  for(const section of design.sections||[]){createSection(section)}
  for(const [id,src] of Object.entries(design.images||{})){
@@ -159,7 +169,8 @@ function apply(design){
   const el=lookup(id);if(el&&base.has(id))geometry(el,placement);
  }
  for(const item of design.elements||[]){createExtra(item)}
- for(const id of design.hidden||[]){const el=lookup(id);if(el&&base.has(id))el.hidden=true}
+ lastHidden=new Set(design.hidden||[]);
+ for(const id of lastHidden){const el=lookup(id);if(el&&(base.has(id)||el.dataset.designExtra==="1"))el.hidden=true}
  if(window.__emilyDesignSelectCallback)window.__emilyDesignSelectCallback();
 }
 if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",start);else start();
