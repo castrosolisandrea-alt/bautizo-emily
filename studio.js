@@ -658,6 +658,8 @@ function attach(){
   if(e.key==="Delete"&&selected&&document.activeElement?.tagName==="BODY")removeSelected();
  });
  populateSections();activateTool("design");drawInspector();notify("Borrador local");
+ const status=document.getElementById("editor-health");
+ if(status){status.style.background="#edf7ed";status.style.color="#315b39";status.textContent="Editor listo ✓ · Escoge una herramienta o toca un elemento de la vista previa.";}
 }
 function setMode(value){
  mode=value;selected=null;drawInspector();frameReady=false;
